@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>첫 페이지</h1>
+<h2>[[${name}]]</h2>
+<h2 th:text="${name}"></h2>
+<div th:if="${name} == '이순신'">
+    <p>이순신입니다.</p>
+</div>
+<div th:unless="${name} == '영희'">
+    <p>영희가 아닙니다.</p>
+</div>
+
+<!-- 15: 반복 -->
+<table th:border="1">
+    <th>아이디</th>
+    <th>이름</th>
+    <th>메일</th>
+    <th>나이</th>
+    <th>메모</th>
+    <tr th:each="dto : ${list}">
+        <td>[[${dto.id}]]</td>
+        <td>[[${dto.name}]]</td>
+        <td>[[${dto.mail}]]</td>
+        <td>[[${dto.age}]]</td>
+        <td>[[${dto.memo}]]</td>
+    </tr>
+</table>
+</br>
+<table th:border="1">
+    <th>아이디</th>
+    <th>이름</th>
+    <th>메일</th>
+    <th>나이</th>
+    <th>메모</th>
+    <tr th:each="dto : ${list}" th:object="${dto}">
+        <td>[[*{id}]]</td>
+        <td>[[*{name}]]</td>
+        <td>[[*{mail}]]</td>
+        <td>[[*{age}]]</td>
+        <td>[[*{memo}]]</td>
+    </tr>
+</table>
+</body>
+</html>
