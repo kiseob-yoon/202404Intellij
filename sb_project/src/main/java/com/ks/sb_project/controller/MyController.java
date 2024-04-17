@@ -1,5 +1,8 @@
 package com.ks.sb_project.controller;
 
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.ks.sb_project.dto.Comments;
@@ -47,28 +50,32 @@ public class MyController {
 		return "login_main";
 	}
 	@PostMapping("/login")
-	public String login(HttpSession session, Model model, String id, String pw, RedirectAttributes redirectAttributes) {
+	public String login(HttpSession session, Model model, String id, String pw,RedirectAttributes redirectAttributes) {
 
 		boolean isLoggedIn = loginService.LoginConfirm(id, pw);
+
 
 
 		if(isLoggedIn) {
 			session.setAttribute("LoggedIn", true);
 			model.addAttribute("LoggedIn", isLoggedIn);
-		} else {
+		}
+		else {
 			redirectAttributes.addFlashAttribute("error", "로그인 실패");
 			return "redirect:/login_main";
 		}
 
-		if ("admin".equals(id)) {
+		if("admin".equals(id)) {
 			session.setAttribute("adminIn",id);
 		}
+
 		model.addAttribute("adminData", session.getAttribute("adminIn"));
 		model.addAttribute("login", loginService.selectForLogin(id, pw));
 		session.setAttribute("id", loginService.selectById(id));
 		session.setAttribute("id2", id);
 		model.addAttribute("storeAllList", storeService.selectStoreList());
 		model.addAttribute("storePointer", storeService.selectStorePointer());
+
 
 		return "root";
 	}

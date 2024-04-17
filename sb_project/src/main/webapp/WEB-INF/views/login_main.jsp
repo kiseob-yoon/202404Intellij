@@ -105,6 +105,8 @@
         .col-md-6 {
     word-wrap: break-word;
 }
+
+
 </style>
 <link href="${path}/sign-in.css" rel="stylesheet">
 </head>
@@ -180,9 +182,9 @@
 	</div>
 
             <main class="container center-form">
-            <form action="login" method="post" class="col-md-6">
-			<img class="mb-4" src="${path}/assets/brand/door-open.svg" alt=""
-				width="72" height="57">
+            <form action="login" method="post" onsubmit="submitForm()" class="col-md-6" >
+			<img class="mb-4" src="img/award.svg" alt=""
+				width="80" height="60">
 			<h1 class="h3 mb-3 fw-normal">로그인</h1>
 
 			<div class="form-floating" style="width: 300px;">
@@ -192,22 +194,22 @@
 
 
 			<div class="form-floating" style="width: 300px;">
-				<input type="text" name="pw" class="form-control"
+				<input type="password" name="pw" class="form-control"
 					id="floatingPassword" placeholder="비밀번호"> <label
 					for="floatingPassword">비밀번호</label>
 
 			</div>
 
 			<div class="form-check text-start my-3">
-				<input class="form-check-input" type="checkbox" value="remember-me"
+				<input class="form-check-input" type="checkbox" name="remember" value="true"
 					id="flexCheckDefault"> <label class="form-check-label"
 					for="flexCheckDefault"> 아이디 저장 
 				</label>
 			</div>
 
-			<input class="btn btn-success" type="submit" value="로그인" style="width: 300px";></p>
+			<input class="btn btn-primary py-2" type="submit" value="로그인" style="width: 300px";></p>
 			
-			<a href="member_join"><input class="btn btn-success" type="button" value="회원가입" style="width: 300px"></a>
+			<a href="member_join"><input class="btn btn-primary py-2" type="button" value="회원가입" style="width: 300px"></a>
 			<p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
 		</form>
 	</main>
@@ -229,6 +231,51 @@
         <% } %>
     }
 </script>
+	<script>
+
+		function setCookie(name, value, days) {
+			var expires = "";
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime() + (days*24*60*60*1000));
+				expires = "; expires=" + date.toUTCString();
+			}
+			document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+		}
+
+		// 쿠키에서 값을 가져오는 함수
+		function getCookie(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0;i < ca.length;i++) {
+				var c = ca[i];
+				while (c.charAt(0)==' ') c = c.substring(1,c.length);
+				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+			}
+			return null;
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+			var rememberedId = getCookie("userId");
+			if (rememberedId) {
+				document.getElementById("floatingInput").value = rememberedId;
+				document.getElementById("flexCheckDefault").checked = true;
+			}
+		});
+
+		function submitForm() {
+			if (document.getElementById("flexCheckDefault").checked) {
+				var userId = document.getElementById("floatingInput").value;
+				setCookie("userId", userId, 7); // 쿠키를 7일 동안 저장
+			} else {
+				setCookie("userId", "", -1); // 쿠키 삭제
+			}
+		}
+	</script>
+
+
+
+
 
 
 

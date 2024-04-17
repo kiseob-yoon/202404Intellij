@@ -216,8 +216,8 @@
 			<c:choose>
     			<c:when test="${adminData == 'admin'}">
 			<td class="center-text">
-			<a style="margin-right:2px;" href="updateForm?num=${item.getNum()}" id="updateButton"><button>수정</button></a>
-			<a href="delete?num=${item.getNum()}&id=${item.getId()}"><button>삭제</button></a></td>
+			<a style="margin-right:2px;" href="updateForm?num=${item.getNum()}" id="updateButton"><button class="btn btn-outline-success btn-sm">수정</button></a>
+			<a href="delete?num=${item.getNum()}&id=${item.getId()}"><button class="btn btn-outline-success btn-sm">삭제</button></a></td>
 
 			</c:when>
 			</c:choose>
@@ -237,8 +237,8 @@
 				<button type="button" class="btn btn-outline-success" onclick="menuForm()">메뉴 등록</button>
 				</c:when>
 				</c:choose>
-		<div id="here" style="margin-bottom:50px;"></div><p>	
-		
+		<div id="here" style="margin-bottom:50px;"></div><p>
+
 		<div id="insertForm" class="insertInfo">
 		<h3>메뉴 입력</h3>
 		<form action="insert" style="margin-bottom:50px;">
@@ -259,17 +259,17 @@
 		<tr>
 		<td><input type="hidden" name="id" value="${store.id}" readonly> </td>
 		</tr>
-		
-		
+
+
 		</table>
 		<input type="submit" value="메뉴 추가" class="green-button">
 		<input type="reset" value="다시 입력하기" class="green-button">
 		</form>
-		
-		
-		
+
+
+
 		</div>
-		
+
 		<p>
 		<h3 id="review">리뷰&평가</h3>
 
@@ -347,22 +347,23 @@ document.addEventListener('DOMContentLoaded', function() {
 			<p>
 		</div>
 
-		<div id="reviewForm" class="reviewInfo"
-			style="border: 1px solid #ccc; margin-bottom:50px;">
-			<form action="commentAdd">
+		<div id="reviewForm" class="form-control"
+			style="border: 1px solid #ccc; margin-bottom:50px; height:450px;" >
+			<form action="commentAdd" >
 				<img id="user" src="img/user1.png"> <input type="text"
 					name="nickname" value="${info.name}" readonly
-					style="margin-bottom: 10px;"><br> <input type="hidden"
-					name="id" value="${store.id}"> <label for="rating">평점:</label>
-				<select id="rating" name="grade">
+					style="margin-bottom: 0px;"><br> <input type="hidden"
+					name="id" value="${store.id}"> <label for="rating"></label>
+				<select id="rating" name="grade" class="form-select form-select-sm" aria-label="Small select example" style="width: 150px;">
 					<option value="5.0">⭐⭐⭐⭐⭐</option>
 					<option value="4.0">⭐⭐⭐⭐</option>
 					<option value="3.0">⭐⭐⭐</option>
 					<option value="2.0">⭐⭐</option>
 					<option value="1.0">⭐</option>
 				</select><br>
-				<textarea name="comment" rows="9" placeholder="댓글을 입력해주세요"
-					style="margin-bottom: 10px;"></textarea>
+				<div class="mb-3">
+					<textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="8" placeholder="댓글을 입력해주세요" style="margin-bottom: 10px;"></textarea>
+				</div>
 				<br> <input id="sub" class="btn btn-outline-success" type="submit" value="등록" style="float: right;">
 				<input id=replay class="btn btn-outline-success" type="reset" value="초기화"
 					style="float: right; margin-right: 10px;">
@@ -414,17 +415,18 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			});
 		});
-		
-		
-	    function menuForm() {
-	        var insertForm = document.getElementById("insertForm");
-	        if (insertForm.style.display === "none") {
-	        	insertForm.style.display = "block";
-	        } else {
-	        	insertForm.style.display = "none";
-	        }
-	    	
-	    }
+
+
+		function menuForm() {
+			var insertForm = document.getElementById("insertForm");
+			var here = document.getElementById("here"); // 수정 폼의 위치를 가져옵니다.
+			here.innerHTML = ''; // 수정 폼을 비웁니다.
+			if (insertForm.style.display === "none") {
+				insertForm.style.display = "block";
+			} else {
+				insertForm.style.display = "none";
+			}
+		}
 		
 	    function toggleForm() {
 	        var reviewForm = document.getElementById("reviewForm");
@@ -574,6 +576,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	        $(document).on("click", "#updateButton", function(e) {
 	            e.preventDefault(); // 링크의 기본 동작인 페이지 이동을 방지합니다.
+				var insertForm = document.getElementById("insertForm"); // 메뉴 등록 폼을 가져옵니다.
+				insertForm.style.display = "none"; // 메뉴 등록 폼을 숨깁니다.
 	            
 	            if (!clicked) { // 버튼이 처음 클릭되었을 때
 	                var url = $(this).attr("href"); // 링크의 URL을 가져옵니다.
