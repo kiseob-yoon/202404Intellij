@@ -10,10 +10,7 @@ import com.ks.sb_project.dto.Food;
 import com.ks.sb_project.dto.Member;
 import com.ks.sb_project.dto.Store;
 import com.ks.sb_project.repository.FoodMapper;
-import com.ks.sb_project.service.CommentsService;
-import com.ks.sb_project.service.LoginService;
-import com.ks.sb_project.service.MenuService;
-import com.ks.sb_project.service.StoreService;
+import com.ks.sb_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +38,9 @@ public class MyController {
 
 	@Autowired
 	private CommentsService commentsService;
+
+	@Autowired
+	private MemberService memberService;
 
 	//	*로그인*
 	@GetMapping("/login_main")
@@ -115,6 +115,32 @@ public class MyController {
 		String memberId = member.getId(); // 멤버 객체에서 memberId 추출
 		model.addAttribute("memberInfo", loginService.selectById(memberId));
 		return "member_update";
+	}
+	@GetMapping("/mypage")
+	public String mypage(Model model,HttpSession session){
+		Member member = (Member) session.getAttribute("id");
+		if (member == null) {
+			return "redirect:/";
+		}
+		int memberno = member.getMemberno();
+		String memberName = member.getName();
+
+		model.addAttribute("adminData", session.getAttribute("adminIn"));
+		model.addAttribute("number",memberno);
+		model.addAttribute("memberName",memberName);
+
+		return "mypage";
+	}
+	@GetMapping("/commentForm")
+	public String commentForm(Model model,int memberno){
+		model.addAttribute("selectComments",memberService.selectComments(memberno));
+		return "commentForm";
+	}
+
+	@GetMapping("/likeForm")
+	public String likeForm(Model model,int memberno){
+		model.addAttribute("selectLikes",memberService.selectLikes(memberno));
+		return "likeForm";
 	}
 
 

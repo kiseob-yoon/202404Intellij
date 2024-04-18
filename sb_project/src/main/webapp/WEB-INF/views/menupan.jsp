@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>맛집랭킹 | ${store.storename}</title>
+<title>EnjoyEat | ${store.storename}</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -55,7 +55,7 @@
                 <span style="font-size: 25px;"> 
                     <input type="hidden" name="id" value="${info.id}">
                     <a href="/" style="text-decoration: none; color: black;">
-                        <img src="img/award.svg" alt="홈" width="100" height="100"> 맛집랭킹
+                        <img src="img/EnjoyEat.png" alt="홈" width="150" height="150"> EnjoyEat
                     </a>
                 </span>
             </div>
@@ -192,7 +192,8 @@
 
 			<c:choose>
     			<c:when test="${adminData == 'admin'}">
-					<th scope="col" style="text-align: center;">수정</th>
+					<th scope="col" style="
+					text-align: center;">수정</th>
 
 				</c:when>
 			</c:choose>
@@ -380,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	<footer>
 		<div class="inner">
 			<div class="upper">
-				<h1>맛집랭킹</h1>
+				<h1>EnjoyEat</h1>
 				<ul>
 					<li><a href="#">Policy</a></li>
 					<li><a href="#">Terms</a></li>
@@ -393,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
 					facere.<br> TEL : 031-111-1234 C.P : 010-1234-5678
 				</address>
-				<p>2024 맛집랭킹 &copy; copyright all rights reserved.</p>
+				<p>2024 EnjoyEat &copy; copyright all rights reserved.</p>
 			</div>
 		</div>
 	</footer>

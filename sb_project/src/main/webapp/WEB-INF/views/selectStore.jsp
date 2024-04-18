@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>맛집랭킹</title>
+<title>EnjoyEat | 맛집검색</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -122,55 +122,80 @@ h2{
     .tab_list li:hover {
         background-color: #f0f0f0;
     }
+    .navbar-custom {
+        height: 85px; /* 네비게이션 바의 높이를 70px로 설정 */
+        padding-top: 10px; /* 상단 패딩 추가 */
+        padding-bottom: 10px; /* 하단 패딩 추가 */
+    }
+
+    .navbar-nav .nav-link {
+        padding-top: 10px; /* 링크 상단 패딩 추가 */
+        padding-bottom: 10px; /* 링크 하단 패딩 추가 */
+    }
+
+    .form-control {
+        height: 40px; /* 검색 입력 필드 높이 조정 */
+    }
+
+    .btn {
+        height: 40px; /* 버튼 높이 조정 */
+        padding: 5px 10px; /* 버튼 내 패딩 조정 */
+    }
     
 </style>
 </head>
 <body>
 
-        
-<div style="text-align: right;">
-	<c:choose>
-	<c:when test="${adminData == 'admin'}">
-	<a href="logout"><button type="button" class="btn btn-outline-success">로그아웃</button></a>
-	<a href="member_recent"><button type="button" class="btn btn-outline-success">회원정보 수정</button></a>
-	<a href="storeForm"><button type="button" class="btn btn-outline-success">점포등록</button></a>
-	</c:when>
-	
-	<c:when test="${LoggedIn}">
-		<a href="logout"><button type="button" class="btn btn-outline-success">로그아웃</button></a>
-		    <a href="member_recent"><button type="button" class="btn btn-outline-success">회원정보 수정</button></a>
-	</c:when>
+<header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">EnjoyEat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
 
-	<c:otherwise>
-		<a href="login_main"><button type="button" class="btn btn-outline-success">로그인</button></a>
-	</c:otherwise>
-	</c:choose>
-</div>
+                <form action="selectStore" class="d-flex" role="search" onsubmit="return validateForm()">
+                    <input name="storename" type="search" class="form-control" placeholder="search" aria-label="Search" id="searchInput">
+                    <button class="btn btn-outline-success" type="submit" style="margin-left:10px;">search</button>
+                </form>
 
-  <header class="p-3 mb-3 border-bottom">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-        
-        
-        <img src="img/award.svg" alt="홈" width="50" height="50"><h2 class="logo">맛집랭킹</h2>
-        </a>
+                <div style="text-align: right;">
 
-      <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mx-auto">
-        <form action="selectStore" class="d-flex" role="search" onsubmit="return validateForm()">
-          <input name="storename" type="search" class="form-control" placeholder="search" aria-label="Search" id="searchInput">
-                  <input type="submit" value="검색" class="btn btn-outline-success" style="margin-left:10px;">
-        </form>
+                    <c:choose>
+                        <c:when test="${adminData == 'admin'}">
+                            <a href="logout"><button type="button" class="btn btn-outline-success" style="margin-left:10px;">로그아웃</button></a>
+                            <a href="mypage"><button type="button" class="btn btn-outline-success">마이페이지</button></a>
+                        </c:when>
 
-      </div>
-      
-        
+                        <c:when test="${LoggedIn}">
+                            <a href="logout"><button type="button" class="btn btn-outline-success" style="margin-left:10px;">로그아웃</button></a>
+                            <a href="mypage"><button type="button" class="btn btn-outline-success">마이페이지</button></a>
+                        </c:when>
+
+                        <c:otherwise>
+                            <a href="login_main"><button type="button" class="btn btn-outline-success" style="margin-left:10px;">로그인</button></a>
+                        </c:otherwise>
+                    </c:choose>
 
 
-      </div>
-    </div>
-  </header>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</header>
 
 
 
@@ -180,7 +205,7 @@ h2{
 
     <div class="inner">
         <div class="wrap">
-        <h3 style="text-align: left; border-bottom:1px solid #e9ecef; margin-top:100px;">맛집</h3>
+        <h3 style="text-align: left; border-bottom:1px solid #e9ecef; margin-top:150px;">맛집</h3>
         <c:forEach var="store" items="${selectStore}" varStatus="loop">
             <article>
                 <div class="pic">
@@ -201,6 +226,7 @@ h2{
 
 
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
