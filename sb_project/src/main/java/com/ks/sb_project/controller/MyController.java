@@ -303,12 +303,14 @@ public class MyController {
 
 		Member member = (Member) session.getAttribute("id");
 
-		int memberno = member.getMemberno();
-		model.addAttribute("number",memberno);
 
 		if (member != null) {
 			String memberId = member.getName();
 			model.addAttribute("commentModify", memberId);
+
+
+			int memberno = member.getMemberno();
+			model.addAttribute("number",memberno);
 
 		}
 
