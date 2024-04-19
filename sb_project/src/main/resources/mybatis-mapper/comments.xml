@@ -58,7 +58,8 @@
 				comment,
 				id,
 				curTime,
-				grade
+				grade,
+			 	member_id
 			) 
 			VALUES 
 			(
@@ -66,7 +67,8 @@
 				#{comment},
 				#{id},
 				NOW(),
-				#{grade}		
+				#{grade},
+				#{member_id}
 			)
 		]]>
 	</insert>

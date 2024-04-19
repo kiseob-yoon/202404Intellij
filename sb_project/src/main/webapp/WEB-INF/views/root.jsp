@@ -35,6 +35,41 @@
         height: 40px; /* 버튼 높이 조정 */
         padding: 5px 10px; /* 버튼 내 패딩 조정 */
     }
+    #myPageContent {
+        display: none;
+        margin-top: 20px;
+    }
+
+
+    #myPageContent {
+        display: none;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 10px;
+        position: absolute;
+        width: 300px;
+    }
+    .list-unstyled {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 15px;
+    }
+    .list-unstyled li {
+        margin-bottom: 15px;
+    }
+    .list-unstyled a {
+        display: block;
+        text-decoration: none;
+        color: black;
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        transition: background-color 0.2s;
+    }
+    .list-unstyled a:hover {
+        background-color: #f8f9fa;
+    }
 </style>
 
 <body>
@@ -64,17 +99,19 @@
                     <button class="btn btn-outline-success" type="submit" style="margin-left:10px;">search</button>
                 </form>
 
-                <div style="text-align: right;">
+                <div style="text-align: right;" >
 
                     <c:choose>
                         <c:when test="${adminData == 'admin'}">
                             <a href="logout"><button type="button" class="btn btn-outline-success" style="margin-left:10px;">로그아웃</button></a>
-                            <a href="mypage" type="button" class="btn btn-outline-success">마이페이지</a>
+                            <a href="#" type="button" id="myPageButton" class="btn btn-outline-success">마이페이지</a>
+
                         </c:when>
+
 
                         <c:when test="${LoggedIn}">
                             <a href="logout"><button type="button" class="btn btn-outline-success" style="margin-left:10px;">로그아웃</button></a>
-                            <a href="mypage" type="button" class="btn btn-outline-success">마이페이지</a>
+                            <a href="#" type="button" id="myPageButton" class="btn btn-outline-success">마이페이지</a>
                         </c:when>
 
                         <c:otherwise>
@@ -82,13 +119,62 @@
                         </c:otherwise>
                     </c:choose>
 
-
                 </div>
 
             </div>
+
         </div>
+        <div style="text-align: center; width: 15%; margin: 475px 0px 0px 1600px;" id="myPageContent">
+            <img id="user" src="img/user1.png">
+            <span>안녕하세요, <strong>${memberName}</strong>님</span>
+
+            <c:choose>
+                <c:when test="${adminData == 'admin'}">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="likeForm?memberno=${number}">좋아요 표시 목록</a>
+                        </li>
+                        <li>
+                            <a href="commentForm?memberno=${number}" id="commentButton">게시글 작성 목록</a>
+                        </li>
+                        <li>
+                            <a href="member_recent">회원정보 수정</a>
+                        </li>
+                        <li>
+                            <a href="storeForm">점포등록</a>
+                        </li>
+                        <li>
+                            <a href="/logout">로그아웃</a>
+                        </li>
+                    </ul>
+
+                </c:when>
+
+                <c:when test="${LoggedIn}">
+                    <ul class="list-unstyled">
+                        <li style="margin-right:2px;">
+                            <a href="likeForm?memberno=${number}" class="button">좋아요 표시 목록</a>
+                        </li>
+                        <li style="margin-right:2px;">
+                            <a href="commentForm?memberno=${number}" id="commentButton" class="button">게시글 작성 목록</a>
+                        </li>
+                        <li>
+                            <a href="member_recent" class="button">회원정보 수정</a>
+                        </li>
+                        <li>
+                            <a href="/logout" class="button">로그아웃</a>
+                        </li>
+                    </ul>
+
+                </c:when>
+            </c:choose>
+        </div>
+
+
     </nav>
+
 </header>
+
 
 
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
@@ -210,6 +296,11 @@ function validateForm() {
     }
     return true;
 }
+
+document.getElementById('myPageButton').addEventListener('click', function() {
+    var content = document.getElementById('myPageContent');
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+});
 
 
 </script>

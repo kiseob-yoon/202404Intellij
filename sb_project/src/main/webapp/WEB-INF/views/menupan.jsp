@@ -351,10 +351,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		<div id="reviewForm" class="form-control"
 			style="border: 1px solid #ccc; margin-bottom:50px; height:450px;" >
 			<form action="commentAdd" >
-				<img id="user" src="img/user1.png"> <input type="text"
-					name="nickname" value="${info.name}" readonly
-					style="margin-bottom: 0px;"><br> <input type="hidden"
-					name="id" value="${store.id}"> <label for="rating"></label>
+				<img id="user" src="img/user1.png">
+				<input type="text" name="nickname" value="${info.name}" readonly style="margin-bottom: 0px;"><br>
+				<input type="hidden" name="id" value="${store.id}">
+				<input type="hidden" name="member_id" value="${number}">
+				<label for="rating"></label>
 				<select id="rating" name="grade" class="form-select form-select-sm" aria-label="Small select example" style="width: 150px;">
 					<option value="5.0">⭐⭐⭐⭐⭐</option>
 					<option value="4.0">⭐⭐⭐⭐</option>

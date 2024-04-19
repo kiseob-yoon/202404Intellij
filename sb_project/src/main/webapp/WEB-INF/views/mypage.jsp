@@ -21,45 +21,37 @@
             flex-direction: column;
             align-items: center;
         }
-        .header {
-            background-color: #f1f1f1;
-            width: 100%;
-            padding: 10px;
-            text-align: right;
+        #myPageContent {
+            text-align: center;
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 2px solid #ccc; /* Adding border */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
         }
-        .header span {
-            float: left;
+        .list-unstyled {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 15px;
         }
-        .header a {
+        .list-unstyled li {
+            margin-bottom: 15px;
+        }
+        .list-unstyled a {
+            display: block;
             text-decoration: none;
             color: black;
-            padding: 8px;
-            background-color: #ddd;
-            border: none;
-            cursor: pointer;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 300px; /* 폼의 폭을 고정하여 버튼들이 세로로 정렬되게 함 */
-        }
-        .button {
-            display: block; /* 각 링크를 독립된 블록으로 만들어 줄바꿈 */
-            padding: 10px 20px;
-            margin: 5px 0 5px 0; /* 상하, 좌우 간격 조정 */
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            text-align: center;
-            width: 100%;
+            background-color: white;
+            transition: background-color 0.2s;
         }
-
-        .button:hover {
-            background-color: #0056b3;
+        .list-unstyled a:hover {
+            background-color: #f8f9fa;
         }
 
     </style>
@@ -68,27 +60,51 @@
 <body>
 
 <h1 style="margin-bottom: 20px;">마이 페이지</h1>
-<form style="text-align: center">
+<div style="text-align: center; width: 20%;" id="myPageContent">
+    <img id="user" src="img/user1.png">
     <span>안녕하세요, <strong>${memberName}</strong>님</span>
 
     <c:choose>
         <c:when test="${adminData == 'admin'}">
-            <a href="likeForm?memberno=${number}" class="button" style="margin-right:2px;">좋아요 표시 목록</a>
-            <a style="margin-right:2px;" href="commentForm?memberno=${number}" id="commentButton" class="button">게시글 작성 목록</a>
+            <ul class="list-unstyled">
+                <li>
+                    <a href="likeForm?memberno=${number}">좋아요 표시 목록</a>
+                </li>
+                <li>
+                    <a href="commentForm?memberno=${number}" id="commentButton">게시글 작성 목록</a>
+                </li>
+                <li>
+                    <a href="member_recent">회원정보 수정</a>
+                </li>
+                <li>
+                    <a href="storeForm">점포등록</a>
+                </li>
+                <li>
+                    <a href="/logout">로그아웃</a>
+                </li>
+            </ul>
 
-            <a href="member_recent"><button type="button" class="button">회원정보 수정</button></a>
-            <a href="storeForm"><button type="button" class="button">점포등록</button></a>
-            <a href="/logout" class="button">로그아웃</a>
         </c:when>
 
         <c:when test="${LoggedIn}">
-            <a href="likeForm?memberno=${number}" class="button" style="margin-right:2px;">좋아요 표시 목록</a>
-            <a style="margin-right:2px;" href="commentForm?memberno=${number}" id="commentButton" class="button">게시글 작성 목록</a>
-            <a href="member_recent" class="button">회원정보 수정</a>
-            <a href="/logout" class="button">로그아웃</a>
+            <ul class="list-unstyled">
+                <li style="margin-right:2px;">
+                    <a href="likeForm?memberno=${number}" class="button">좋아요 표시 목록</a>
+                </li>
+                <li style="margin-right:2px;">
+                    <a href="commentForm?memberno=${number}" id="commentButton" class="button">게시글 작성 목록</a>
+                </li>
+                <li>
+                    <a href="member_recent" class="button">회원정보 수정</a>
+                </li>
+                <li>
+                    <a href="/logout" class="button">로그아웃</a>
+                </li>
+            </ul>
+
         </c:when>
     </c:choose>
-</form>
+</div>
 
 <div id="here" style="margin-bottom:50px;"></div>
 

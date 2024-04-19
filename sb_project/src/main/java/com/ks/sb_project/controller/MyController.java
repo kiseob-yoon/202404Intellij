@@ -11,36 +11,29 @@ import com.ks.sb_project.dto.Member;
 import com.ks.sb_project.dto.Store;
 import com.ks.sb_project.repository.FoodMapper;
 import com.ks.sb_project.service.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
 @Controller
+@RequiredArgsConstructor
 public class MyController {
 
-	@Autowired
-	private FoodMapper foodMapper;
+	private final FoodMapper foodMapper;
+	private final MenuService menuService;
+	private final StoreService storeService;
+	private final LoginService loginService;
+	private final CommentsService commentsService;
+	private final MemberService memberService;
 
-	@Autowired
-	private MenuService menuService;
-
-	@Autowired
-	private StoreService storeService;
-
-	@Autowired
-	private LoginService loginService;
-
-	@Autowired
-	private CommentsService commentsService;
-
-	@Autowired
-	private MemberService memberService;
 
 	//	*로그인*
 	@GetMapping("/login_main")
@@ -53,8 +46,6 @@ public class MyController {
 	public String login(HttpSession session, Model model, String id, String pw,RedirectAttributes redirectAttributes) {
 
 		boolean isLoggedIn = loginService.LoginConfirm(id, pw);
-
-
 
 		if(isLoggedIn) {
 			session.setAttribute("LoggedIn", true);
@@ -75,6 +66,16 @@ public class MyController {
 		session.setAttribute("id2", id);
 		model.addAttribute("storeAllList", storeService.selectStoreList());
 		model.addAttribute("storePointer", storeService.selectStorePointer());
+
+		Member member = (Member) session.getAttribute("id");
+		if (member == null) {
+			return "redirect:/";
+		}
+		int memberno = member.getMemberno();
+		String memberName = member.getName();
+
+		model.addAttribute("number",memberno);
+		model.addAttribute("memberName",memberName);
 
 
 		return "root";
@@ -129,7 +130,7 @@ public class MyController {
 		model.addAttribute("number",memberno);
 		model.addAttribute("memberName",memberName);
 
-		return "mypage";
+		return "redirect:/root";
 	}
 	@GetMapping("/commentForm")
 	public String commentForm(Model model,int memberno){
@@ -217,14 +218,23 @@ public class MyController {
 
 	@GetMapping("/")
 	public String root(Model model,HttpSession session,String id) {
+		Member member = (Member) session.getAttribute("id");
+
+		if (member != null) {
+			int memberno = member.getMemberno();
+			String memberName = member.getName();
+			model.addAttribute("number",memberno);
+			model.addAttribute("memberName",memberName);
+		}
 
 		model.addAttribute("login", loginService.selectById(id));
 		String info = (String) session.getAttribute("id2");
 
 		model.addAttribute("storeAllList", storeService.selectStoreList());
 		model.addAttribute("storePointer", storeService.selectStorePointer());
-
 		model.addAttribute("adminData", session.getAttribute("adminIn"));
+
+
 		return "root";
 	}
 
@@ -292,6 +302,9 @@ public class MyController {
 		}
 
 		Member member = (Member) session.getAttribute("id");
+
+		int memberno = member.getMemberno();
+		model.addAttribute("number",memberno);
 
 		if (member != null) {
 			String memberId = member.getName();

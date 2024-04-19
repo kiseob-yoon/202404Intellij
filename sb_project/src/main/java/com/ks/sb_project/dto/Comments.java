@@ -23,5 +23,6 @@ public class Comments {
 	@NonNull int id;
 	@NonNull String curTime;
 	@NonNull private Double grade;
+	@NonNull int member_id;
 
 }
