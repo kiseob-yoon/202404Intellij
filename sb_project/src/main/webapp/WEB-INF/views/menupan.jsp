@@ -652,6 +652,23 @@ document.addEventListener('DOMContentLoaded', function() {
 	    });
 
 
+		var price = 0;
+
+		var Menu = document.querySelectorAll(".checkbx");
+		var total = document.querySelector("#total");
+		total.value = price+"원";
+
+		for(i=0; i<Menu.length; i++) {
+			Menu[i].onclick = function() {
+				if(this.checked == true) {
+					price += parseInt(this.value);
+				}
+				else {
+					price -= parseInt(this.value);
+				}
+				total.value = price+"원";
+			}
+		}
 
 
 

@@ -469,3 +469,12 @@ footer .inner .lower p{
     color:#777;
 }
 
+.restAdd {
+    display: flex; /* 부모 요소를 플렉스 컨테이너로 설정하여 자식 요소들을 가로로 배치 */
+    flex-wrap: nowrap; /* 자식 요소들이 넘치는 경우 줄 바꿈을 하지 않도록 설정 */
+}
+
+.restAdd dt {
+    white-space: nowrap; /* dt 요소가 너무 길 경우 줄 바꿈을 하지 않도록 설정 */
+}
+

@@ -301,8 +301,8 @@ public class MyController {
 			model.addAttribute("LoggedIn", isLoggedIn);
 		}
 
-		Member member = (Member) session.getAttribute("id");
 
+		Member member = (Member) session.getAttribute("id");
 
 		if (member != null) {
 			String memberId = member.getName();
