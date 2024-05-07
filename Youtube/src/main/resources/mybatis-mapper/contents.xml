@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ks.youtube.mapper.ContentMapper">
+    <select id="selectCount" resultType="Integer">
+        select count(*) from contents_manage
+    </select>
+
+    <select id="selectList" resultType="com.ks.youtube.entity.contents_manage">
+        <![CDATA[
+        select *
+        from contents_manage
+        ]]>
+    </select>
+
+    <select id="selectContent" resultType="com.ks.youtube.entity.contents_manage">
+        SELECT *
+        FROM contents_manage
+        WHERE conNum = #{conNum}
+    </select>
+
+    <insert id="insertContent" parameterType="com.ks.youtube.entity.contents_manage">
+        insert into contents_manage
+        (
+        conName,
+        conNum,
+        conPlayTime,
+        description,
+        lecName,
+        videoId
+        )
+        values(
+        #{conName},
+        #{conNum},
+        #{conPlayTime},
+        #{description},
+        #{lecName},
+        #{videoId}
+        );
+    </insert>
+</mapper>

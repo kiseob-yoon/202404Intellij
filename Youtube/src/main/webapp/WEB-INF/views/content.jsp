@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -111,7 +112,8 @@
         }
 
         .table-light {
-            width: 30%; /* 첫 번째 셀의 너비 비중 설정 */
+            width: 30%;
+            font-weight: bold; /* 첫 번째 셀의 너비 비중 설정 */
         }
         .table-light + td {
             width: 70%; /* 두 번째 셀의 너비 비중 설정 */
@@ -127,36 +129,31 @@
         .input-full-width {
             width: 100%;
         }
-
-
-
-
-
+        a {
+            text-decoration: none; /* 링크에 밑줄 제거 */
+            color: inherit; /* 기본 링크 색상으로 설정 */
+            cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+           }
 
 
     </style>
-    <link href="css/sidebars.css" rel="stylesheet">
 </head>
 <body>
 
 <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="index.jsp" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16" style="margin: 10px;">
-            <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z"/>
-        </svg>
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <img src="img/online.png" style="width: 120px; height: 100px; margin-right: 10px;">
         <span class="fs-4">Coding Education</span>
     </a>
 
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="sessionLogout.jsp" class="nav-link">Logout</a></li>
+      <img src="img/person-circle.svg" style="width: 60px; height: 38px; margin: 10px 20px 0px 0px;">
+
     </ul>
 </header>
 
 <main class="d-flex flex-nowrap">
-    <h1 class="visually-hidden">Sidebars examples</h1>
-    <div class="b-example-divider b-example-vr"></div>
-
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
+    <div id="sidebar" class="flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
             <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
             <span class="fs-4">Sidebar</span>
@@ -194,50 +191,43 @@
                 </a>
             </li>
         </ul>
-        <hr>
-        <div class="dropdown">
-            <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>mdo</strong>
-            </a>
-            <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
-        </div>
-    </div>
+
+
+        <button id="btn-hide" class="btn btn-primary" style="margin-top: 500px;">메뉴숨기기</button>
+</div>
+<div>
+
+    <button id="btn-show" class="btn btn-primary" style="margin-top: 780px; border-radius: 50%;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+          </svg>
+    </button>
+</div>
+
+
 
     <div class="container-fluid">
-        <div class="row g-3 border p-3" style="margin-top: 10px;">
+        <div class="row g-3 border p-3" style="margin-top: 10px; border-radius: 10px;">
             <div class="col-sm-6">
                 <form action="/submit-form" method="post">
-                    <div class="form-group">
+                    <div class="form-group" style="margin-left: 40px;">
                         <label for="firstName">콘텐츠명</label>
                         <input type="text" class="form-control" id="firstName" placeholder="" value="" style="max-width: 350px;">
                     </div>
-                    <div class="invalid-feedback">
-                        Valid first name is required.
-                    </div>
-                </form>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="lastName">교과목명</label>
                     <input type="text" class="form-control" id="lastName" placeholder="" value="" style="max-width: 350px;">
-                    <button class="btn btn-primary">조회</button>
-                </div>
-                <div class="invalid-feedback">
-                    Valid last name is required.
+                    <input type="submit"class="btn btn-primary" value="검색"></input>
                 </div>
             </div>
+              </form>
         </div>
 
         <div class="row g-3 border p-3" style="margin-top: 50px;">
             <h4>온라인콘텐츠</h4>
-            <div class="col-md-7" style="overflow-x: auto; overflow-y: auto; max-height: 700px;">
+            <div class="col-md-7" style="overflow-x: auto; overflow-y: auto; max-height: 600px;">
 
                 <table class="table table-striped table-bordered table-hover">
                     <thead class="table-light">
@@ -248,104 +238,19 @@
                         <th scope="col" style="text-align: center;">학습시간</th>
                     </tr>
                     </thead>
+                    <c:forEach var="contents" items="${contentList}" varStatus="loop">
                     <tbody>
+
                     <tr>
-                        <td>Java</td>
-                        <td style="text-align: right;">객체지향</td>
-                        <td style="text-align: center;">1</td>
-                        <td style="text-align: center;">58분50초</td>
+                        <td><a href="#" onclick="fetchContentDetails('${contents.getConNum()}'); return false;">${contents.getLecName()}</a></td>
+                        <td style="text-align: right;"><a href="https://www.youtube.com/watch?v=${contents.getConName()}">${contents.getConName()}</a></td>
+                        <td style="text-align: center;"><a href="https://www.youtube.com/watch?v=${contents.getVideoId()}">${contents.getVideoId()}</a></td>
+                        <td style="text-align: center;"><a href="https://www.youtube.com/watch?v=${contents.getConPlayTime()}">${contents.getConPlayTime()}</a></td>
                     </tr>
-                    <tr>
-                        <td>Python</td>
-                        <td style="text-align: right;">조건문</td>
-                        <td style="text-align: center;">2</td>
-                        <td style="text-align: center;">40분10초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">Dom</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">Ajax</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
-                    <tr>
-                        <td>JavaScript</td>
-                        <td style="text-align: right;">API</td>
-                        <td style="text-align: center;">3</td>
-                        <td style="text-align: center;">55분21초</td>
-                    </tr>
+
+
                     </tbody>
+                    </c:forEach>
                 </table>
 
             </div>
@@ -365,47 +270,50 @@
                 <div id="notice" class="tabContent">
 
                     <div id="contentInfo" class="mb-3">
-                        <button style="float: right; margin-right: 5px;">삭제</button>
-                        <button style="float: right; margin-right: 5px;">수정</button>
-                        <button style="float: right; margin-right: 5px; margin-bottom: 10px;">신규</button>
 
                         <table class="table table border">
-
+                        <form action="insertContent" method="post">
                             <tbody>
                             <tr>
-                                <td class="table-light" >콘텐츠관리번호</td>
-                                <td><input type="text" class="form-control"  value="C-8087" readonly></td>
+                                <td class="table-light">콘텐츠관리번호</td>
+                                <td><input type="text" class="form-control" name="conNum" value="${selectContent.conNum}"></td>
                             </tr>
                             <tr>
                                 <td class="table-light">콘텐츠명</td>
-                                <td><input type="text" class="form-control" value="변수의 개념"></td>
+                                <td><input type="text" class="form-control" name="conName" value="${selectContent.conName}"></td>
                             </tr>
                             <tr>
                                 <td class="table-light">교과목명</td>
-                                <td><input type="text" class="form-control" value="Java"></td>
-                            </tr>
-                            <tr>
-                                <td class="table-light">콘텐츠구성명</td>
-                                <td><input type="text" class="form-control" value="서식1"></td>
+                                <td><input type="text" class="form-control" name="lecName" value="${selectContent.lecName}"></td>
                             </tr>
                             <tr>
                                 <td class="table-light">콘텐츠설명</td>
-                                <td><input type="text" class="form-control" value="서식컨텐츠"></td>
+                                <td><input type="text" class="form-control" name="description" value="${selectContent.description}"></td>
                             </tr>
                             <tr>
                                 <td class="table-light">Youtube비디오ID</td>
-                                <td><input type="text" class="form-control" value="Fe8_DiSs_9Q" readonly></td>
+                                <td>
+                                <input type="text" class="form-control" name="videoId" value="${selectContent.videoId}">
+                                <a href="https://www.youtube.com/watch?v="><button>게재확인</button></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="table-light">차시학습시간[초]</td>
-                                <td><input type="text" class="form-control" value="2850" readonly></td>
+                                <td><input type="text" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}"></td>
                             </tr>
                             </tbody>
+
                         </table>
+                            <button class="btn btn-primary" style="float: right; margin-right: 5px;">삭제</button>
+                            <button class="btn btn-primary" style="float: right; margin-right: 5px;">수정</button>
+                            <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px; margin-bottom: 10px;" value="신규"></button>
+
+                        </form>
+
                     </div>
 
-                    <div id="chapterInfo" style="overflow-x: auto; overflow-y: auto; max-height: 300px;">
-                        <table class="table table-border">
+                    <div id="chapterInfo" style="overflow-x: auto; overflow-y: auto; max-height: 200px;">
+                        <table class="table table-striped table-bordered table-hover">
                             <thead class="table-light">
                             <tr>
                                 <th scope="col" style="text-align: center;">챕터</th>
@@ -416,29 +324,29 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="table-light" style="text-align: center;">1</td>
-                                <td>B-0423</td>
-                                <td>00:00:00</td>
-                                <td>00:00:00</td>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: center;">B-0423</td>
+                                <td style="text-align: center;">00:00:00</td>
+                                <td style="text-align: center;">20</td>
 
                             </tr>
                             <tr>
-                                <td class="table-light" style="text-align: center;">2</td>
-                                <td>변수의 개념</td>
-                                <td>00:00:00</td>
-                                <td>00:00:00</td>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: center;">변수의 개념</td>
+                                <td style="text-align: center;">00:00:00</td>
+                                <td style="text-align: center;">60</td>
                             </tr>
                             <tr>
-                                <td class="table-light" style="text-align: center;">3</td>
-                                <td>Java</td>
-                                <td>00:00:00</td>
-                                <td>00:00:00</td>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: center;">Java</td>
+                                <td style="text-align: center;">00:00:00</td>
+                                <td style="text-align: center;">150</td>
                             </tr>
                             <tr>
-                                <td class="table-light" style="text-align: center;">4</td>
-                                <td>서식1</td>
-                                <td>00:00:00</td>
-                                <td>00:00:00</td>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: center;">서식1</td>
+                                <td style="text-align: center;">00:00:00</td>
+                                <td style="text-align: center;">200</td>
                             </tr>
                             </tbody>
                         </table>
@@ -451,12 +359,9 @@
 
         </div>
     </div>
-
-
 </main>
 
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-<script src="sidebars.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script>
@@ -471,6 +376,64 @@
             $("#chapterInfo").show();
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var btnHide = document.querySelector('#btn-hide');
+    var btnShow = document.querySelector('#btn-show');
+
+    // 초기에는 사이드바를 보여주고 메뉴숨기기 버튼만 활성화합니다.
+    var sidebar = document.querySelector('#sidebar');
+    sidebar.style.display = 'block';
+    btnHide.style.display = 'block';
+    btnShow.style.display = 'none';
+
+    // 메뉴숨기기 버튼을 누르면 사이드바를 감추고 메뉴열기 버튼을 활성화합니다.
+    btnHide.addEventListener('click', function() {
+        sidebar.style.display = 'none';
+        btnHide.style.display = 'none';
+        btnShow.style.display = 'block';
+    });
+
+    // 메뉴열기 버튼을 누르면 사이드바를 보여주고 메뉴숨기기 버튼을 활성화합니다.
+    btnShow.addEventListener('click', function() {
+        sidebar.style.display = 'block';
+        btnShow.style.display = 'none';
+        btnHide.style.display = 'block';
+    });
+});
+
+<script>
+    // 페이지 로드 후 자동으로 데이터를 불러오는 함수
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "/getContentDetails?conNum=${content.conNum}", // Ajax 요청을 보낼 URL
+            success: function(response) {
+                // Ajax 요청이 성공하면 받은 데이터를 사용하여 폼 필드에 값을 설정합니다.
+                $('input[name="conNum"]').val(response.conNum);
+                $('input[name="conName"]').val(response.conName);
+                $('input[name="lecName"]').val(response.lecName);
+                $('input[name="description"]').val(response.description);
+                $('input[name="videoId"]').val(response.videoId);
+                $('input[name="conPlayTime"]').val(response.conPlayTime);
+            },
+            error: function(xhr, status, error) {
+                // 오류 처리
+                console.error("Error:", error);
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
 
 </script>
 
