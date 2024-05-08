@@ -25,6 +25,13 @@ public class ContentService {
     public void insertContent(contents_manage contentsManage){
         contentMapper.insertContent(contentsManage);
     }
+    public void updateContent(contents_manage contentsManage){
+        contentMapper.updateContent(contentsManage);
+    }
+    public void deleteContent(int id){
+        contentMapper.deleteContent(id);
+    }
+
     public contents_manage selectContent(String conNum){
         return contentMapper.selectContent(conNum);
     }

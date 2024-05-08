@@ -14,7 +14,10 @@ public interface ContentMapper {
     int selectCount();
     List<contents_manage> selectList();
     void insertContent(contents_manage contentsManage);
+    void updateContent(contents_manage contentsManage);
+    void deleteContent(int id);
     contents_manage selectContent(String conNum);
+
 
 
 

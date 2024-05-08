@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class YoutubeController {
@@ -30,11 +32,26 @@ public class YoutubeController {
         contentService.insertContent(contentsManage);
         return "redirect:/content";
     }
-    @GetMapping("selectContent")
-    public String selectContent(Model model,String conNum){
-        model.addAttribute("selectContent",contentService.selectContent(conNum));
+
+    @GetMapping("updateContent")
+    public String updateContent(contents_manage contentsManage){
+        contentService.updateContent(contentsManage);
         return "redirect:/content";
     }
+    @GetMapping("deleteContent")
+    public String deleteContent(int id){
+        contentService.deleteContent(id);
+        return "redirect:/content";
+    }
+
+    @GetMapping("selectContent")
+    @ResponseBody
+    public contents_manage selectContent(@RequestParam("conNum") String conNum,Model model){
+//        model.addAttribute("selectContent", contentService.selectContent(conNum));
+//        return "content";
+        return contentService.selectContent(conNum);
+    }
+
 
 
 }

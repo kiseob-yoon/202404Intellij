@@ -242,10 +242,12 @@
                     <tbody>
 
                     <tr>
-                        <td><a href="#" onclick="fetchContentDetails('${contents.getConNum()}'); return false;">${contents.getLecName()}</a></td>
-                        <td style="text-align: right;"><a href="https://www.youtube.com/watch?v=${contents.getConName()}">${contents.getConName()}</a></td>
-                        <td style="text-align: center;"><a href="https://www.youtube.com/watch?v=${contents.getVideoId()}">${contents.getVideoId()}</a></td>
-                        <td style="text-align: center;"><a href="https://www.youtube.com/watch?v=${contents.getConPlayTime()}">${contents.getConPlayTime()}</a></td>
+                        <td onclick="handleClick('${contents.getConNum()}'); return false;">
+                            <a href="#">${contents.getLecName()}</a>
+                        </td>
+                        <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConName()}</a></td>
+                        <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getVideoId()}</a></td>
+                        <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConPlayTime()}</a></td>
                     </tr>
 
 
@@ -272,11 +274,14 @@
                     <div id="contentInfo" class="mb-3">
 
                         <table class="table table border">
-                        <form action="insertContent" method="post">
+
+                        <form action="updateContent">
                             <tbody>
                             <tr>
                                 <td class="table-light">콘텐츠관리번호</td>
+
                                 <td><input type="text" class="form-control" name="conNum" value="${selectContent.conNum}"></td>
+
                             </tr>
                             <tr>
                                 <td class="table-light">콘텐츠명</td>
@@ -294,21 +299,43 @@
                                 <td class="table-light">Youtube비디오ID</td>
                                 <td>
                                 <input type="text" class="form-control" name="videoId" value="${selectContent.videoId}">
-                                <a href="https://www.youtube.com/watch?v="><button>게재확인</button></a>
+                                <a href="https://www.youtube.com/watch?v=${selectContent.videoId}" id="youtubeLink" target="_blank">
+                                    <input type="button" value="게재확인">
+                                </a>
+
                                 </td>
                             </tr>
                             <tr>
                                 <td class="table-light">차시학습시간[초]</td>
                                 <td><input type="text" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}"></td>
                             </tr>
+
                             </tbody>
 
                         </table>
-                            <button class="btn btn-primary" style="float: right; margin-right: 5px;">삭제</button>
-                            <button class="btn btn-primary" style="float: right; margin-right: 5px;">수정</button>
-                            <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px; margin-bottom: 10px;" value="신규"></button>
+                            <input type="hidden" name="id" value="${selectContent.id}">
+                            <input type="submit" value="저장" class="btn btn-primary" style="float: right; margin-right: 5px;">
+                            </form>
 
-                        </form>
+                            <form action="deleteContent">
+                            <input type="hidden" name="id" id="deleteBtn"  value="${selectContent.id}">
+                            <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px;" value="삭제">
+                            </form>
+
+
+
+                            <form action="insertContent" method="post">
+                                <input type="hidden" class="form-control" name="conNum" value="${selectContent.conNum}">
+                                <input type="hidden" class="form-control" name="conName" value="${selectContent.conName}">
+                                <input type="hidden" class="form-control" name="lecName" value="${selectContent.lecName}">
+                                <input type="hidden" class="form-control" name="description" value="${selectContent.description}">
+                                <input type="hidden" class="form-control" name="videoId" value="${selectContent.videoId}">
+                                <input type="hidden" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}">
+                                <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px; margin-bottom: 10px;" value="신규"></button>
+                            </form>
+
+
+
 
                     </div>
 
@@ -362,7 +389,8 @@
 </main>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script>
     // 탭을 클릭했을 때 해당하는 테이블 보이도록 처리
@@ -402,20 +430,47 @@
     });
 });
 
-<script>
-    // 페이지 로드 후 자동으로 데이터를 불러오는 함수
-    $(document).ready(function() {
+// 클릭 이벤트 핸들러
+function handleClick(conNum) {
+
+    // 클릭된 요소의 conNum 값을 사용하여 AJAX 요청을 보냅니다.
+    $.ajax({
+        type: "GET",
+        url: "/selectContent?conNum=" + conNum, // 클릭된 요소의 conNum 값을 URL에 포함
+        success: function(response) {
+            // Ajax 요청이 성공하면 받은 데이터를 사용하여 폼 필드에 값을 설정합니다.
+            $('input[name="conNum"]').val(response.conNum);
+            $('input[name="conName"]').val(response.conName);
+            $('input[name="lecName"]').val(response.lecName);
+            $('input[name="description"]').val(response.description);
+            $('input[name="videoId"]').val(response.videoId);
+            $('input[name="conPlayTime"]').val(response.conPlayTime);
+            $('input[name="id"]').val(response.id);
+
+        },
+        error: function(xhr, status, error) {
+            // 오류 처리
+            console.error("Error:", error);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $('#js-preview-link').click(function(e) {
+        e.preventDefault(); // 링크의 기본 동작을 중지
+
+        // 클릭된 버튼이 속한 행의 콘텐츠 번호 가져오기
+        var conNum = $(this).data('conNum');
+
+        // AJAX 요청 보내기
         $.ajax({
             type: "GET",
-            url: "/getContentDetails?conNum=${content.conNum}", // Ajax 요청을 보낼 URL
+            url: "/selectContent?conNum=" + conNum,
             success: function(response) {
-                // Ajax 요청이 성공하면 받은 데이터를 사용하여 폼 필드에 값을 설정합니다.
-                $('input[name="conNum"]').val(response.conNum);
-                $('input[name="conName"]').val(response.conName);
-                $('input[name="lecName"]').val(response.lecName);
-                $('input[name="description"]').val(response.description);
-                $('input[name="videoId"]').val(response.videoId);
-                $('input[name="conPlayTime"]').val(response.conPlayTime);
+                // AJAX 요청이 성공한 경우
+                var videoId = response.videoId;
+                var youtubeLink = "https://www.youtube.com/watch?v=" + videoId;
+                window.open(youtubeLink, "_blank"); // 새 창에서 유튜브 링크 열기
             },
             error: function(xhr, status, error) {
                 // 오류 처리
@@ -423,13 +478,7 @@
             }
         });
     });
-</script>
-
-
-
-
-
-
+});
 
 
 

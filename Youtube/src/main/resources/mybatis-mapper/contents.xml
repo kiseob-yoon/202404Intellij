@@ -38,4 +38,27 @@
         #{videoId}
         );
     </insert>
+
+    <update id="updateContent" parameterType="com.ks.youtube.entity.contents_manage">
+        <![CDATA[
+	    UPDATE contents_manage SET
+		conName = #{conName},
+		conNum = #{conNum},
+		conPlayTime = #{conPlayTime},
+		description = #{description},
+		lecName = #{lecName},
+		videoId = #{videoId}
+		where id = #{id};
+	    ]]>
+    </update>
+
+    <delete id="deleteContent" parameterType="int">
+        <![CDATA[
+		delete from contents_manage where id = #{id};
+
+	]]>
+    </delete>
+
+
+
 </mapper>
