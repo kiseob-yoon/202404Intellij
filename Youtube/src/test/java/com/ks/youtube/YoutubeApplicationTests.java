@@ -2,6 +2,7 @@ package com.ks.youtube;
 
 import com.ks.youtube.entity.contents_manage;
 import com.ks.youtube.service.ContentService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,11 @@ class YoutubeApplicationTests {
     @Test
     void contextLoads() {
         contentService.selectContent("C-8088");
+    }
+    @Test
+    @DisplayName("검색기능")
+    void selectSearch(){
+        contentService.selectSearch("반복문");
     }
 
 }

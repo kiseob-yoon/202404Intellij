@@ -19,6 +19,17 @@
         WHERE conNum = #{conNum}
     </select>
 
+    <select id="selectSearch" resultType="com.ks.youtube.entity.contents_manage" parameterType="hashMap">
+        SELECT *
+        FROM contents_manage
+        WHERE conName LIKE CONCAT('%', #{conName}, '%')
+        <if test="lecName != null and lecName != ''">
+            AND lecName LIKE CONCAT('%', #{lecName}, '%')
+        </if>
+    </select>
+
+
+
     <insert id="insertContent" parameterType="com.ks.youtube.entity.contents_manage">
         insert into contents_manage
         (

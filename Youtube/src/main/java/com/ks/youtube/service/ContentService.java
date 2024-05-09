@@ -7,7 +7,9 @@ import com.ks.youtube.mapper.ContentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -35,4 +37,10 @@ public class ContentService {
     public contents_manage selectContent(String conNum){
         return contentMapper.selectContent(conNum);
     }
+    public List<contents_manage> selectSearch(String conName, String lecName) {
+        return contentMapper.selectSearch(conName, lecName);
+    }
+
+
+
 }

@@ -135,7 +135,6 @@
             cursor: pointer; /* 마우스 커서를 포인터로 변경 */
            }
 
-
     </style>
 </head>
 <body>
@@ -204,21 +203,21 @@
     </button>
 </div>
 
-
-
     <div class="container-fluid">
         <div class="row g-3 border p-3" style="margin-top: 10px; border-radius: 10px;">
             <div class="col-sm-6">
-                <form action="/submit-form" method="post">
+                <form action="selectSearch" method="post">
                     <div class="form-group" style="margin-left: 40px;">
                         <label for="firstName">콘텐츠명</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="" style="max-width: 350px;">
+
+                        <input type="text" class="form-control" id="firstName" name="conName" placeholder="" value="" style="max-width: 350px;">
                     </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="lastName">교과목명</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="" value="" style="max-width: 350px;">
+
+                    <input type="text" class="form-control" id="lastName" name="lecName" placeholder="" value="" style="max-width: 350px;">
                     <input type="submit"class="btn btn-primary" value="검색"></input>
                 </div>
             </div>
@@ -238,21 +237,39 @@
                         <th scope="col" style="text-align: center;">학습시간</th>
                     </tr>
                     </thead>
-                    <c:forEach var="contents" items="${contentList}" varStatus="loop">
-                    <tbody>
 
-                    <tr>
-                        <td onclick="handleClick('${contents.getConNum()}'); return false;">
-                            <a href="#">${contents.getLecName()}</a>
-                        </td>
-                        <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConName()}</a></td>
-                        <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getVideoId()}</a></td>
-                        <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConPlayTime()}</a></td>
-                    </tr>
+                <c:choose>
+                    <c:when test="${empty selectSearch}">
+                        <c:forEach var="contents" items="${contentList}" varStatus="loop">
+                            <tbody>
+                                <tr>
+                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">
+                                        <a href="#">${contents.getLecName()}</a>
+                                    </td>
+                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConName()}</td>
+                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getVideoId()}</td>
+                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConPlayTime()}</td>
+                                </tr>
+                            </tbody>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="search" items="${selectSearch}" varStatus="loop">
+                            <tbody>
+                                <tr>
+                                    <td onclick="handleClick('${search.getConNum()}'); return false;">
+                                        <a href="#">${search.getLecName()}</a>
+                                    </td>
+                                    <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getConName()}</td>
+                                    <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getVideoId()}</td>
+                                    <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getConPlayTime()}</td>
+                                </tr>
+                            </tbody>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
 
 
-                    </tbody>
-                    </c:forEach>
                 </table>
 
             </div>
@@ -285,11 +302,11 @@
                             </tr>
                             <tr>
                                 <td class="table-light">콘텐츠명</td>
-                                <td><input type="text" class="form-control" name="conName" value="${selectContent.conName}"></td>
+                                <td><input type="text" class="form-control" id="conName" name="conName" value="${selectContent.conName}"></td>
                             </tr>
                             <tr>
                                 <td class="table-light">교과목명</td>
-                                <td><input type="text" class="form-control" name="lecName" value="${selectContent.lecName}"></td>
+                                <td><input type="text" class="form-control" id="lecName" name="lecName" value="${selectContent.lecName}"></td>
                             </tr>
                             <tr>
                                 <td class="table-light">콘텐츠설명</td>
@@ -298,16 +315,17 @@
                             <tr>
                                 <td class="table-light">Youtube비디오ID</td>
                                 <td>
-                                <input type="text" class="form-control" name="videoId" value="${selectContent.videoId}">
-                                <a href="https://www.youtube.com/watch?v=${selectContent.videoId}" id="youtubeLink" target="_blank">
-                                    <input type="button" value="게재확인">
-                                </a>
-
+                                <div style="display: flex; align-items: center;">
+                                <input type="text"class="form-control" name="videoId" value="${selectContent.videoId}">
+                                <input type="button" class="js-preview-link" data-conNum="${conNum}" value="영상확인">
+                                </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="table-light">차시학습시간[초]</td>
-                                <td><input type="text" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}"></td>
+                                <td><input type="text" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}">
+                                </td>
+
                             </tr>
 
                             </tbody>
@@ -322,8 +340,6 @@
                             <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px;" value="삭제">
                             </form>
 
-
-
                             <form action="insertContent" method="post">
                                 <input type="hidden" class="form-control" name="conNum" value="${selectContent.conNum}">
                                 <input type="hidden" class="form-control" name="conName" value="${selectContent.conName}">
@@ -333,9 +349,6 @@
                                 <input type="hidden" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}">
                                 <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px; margin-bottom: 10px;" value="신규"></button>
                             </form>
-
-
-
 
                     </div>
 
@@ -379,16 +392,12 @@
                         </table>
                     </div>
 
-
-
                 </div>
             </div>
 
         </div>
     </div>
 </main>
-
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -440,12 +449,13 @@ function handleClick(conNum) {
         success: function(response) {
             // Ajax 요청이 성공하면 받은 데이터를 사용하여 폼 필드에 값을 설정합니다.
             $('input[name="conNum"]').val(response.conNum);
-            $('input[name="conName"]').val(response.conName);
-            $('input[name="lecName"]').val(response.lecName);
+            $('#conName').val(response.conName);
+            $('#lecName').val(response.lecName);
             $('input[name="description"]').val(response.description);
             $('input[name="videoId"]').val(response.videoId);
             $('input[name="conPlayTime"]').val(response.conPlayTime);
             $('input[name="id"]').val(response.id);
+            $('.js-preview-link').data('conNum', response.conNum);
 
         },
         error: function(xhr, status, error) {
@@ -456,7 +466,7 @@ function handleClick(conNum) {
 }
 
 $(document).ready(function() {
-    $('#js-preview-link').click(function(e) {
+    $('.js-preview-link').click(function(e) {
         e.preventDefault(); // 링크의 기본 동작을 중지
 
         // 클릭된 버튼이 속한 행의 콘텐츠 번호 가져오기
@@ -480,11 +490,35 @@ $(document).ready(function() {
     });
 });
 
+// 폼 제출 이벤트 리스너 추가
+document.getElementById("searchForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // 기본 제출 행동 막기
+    var form = this;
+    var formData = new FormData(form); // 폼 데이터 가져오기
 
+    // lecName 필드 값 가져오기
+    var lecNameValue = document.getElementById("lastName").value;
 
+    // AJAX 요청 생성
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/selectSearch"); // 서버의 실제 경로로 변경해야 함
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
+    // 요청 완료 후의 동작 설정
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // 응답 처리
+            console.log(xhr.responseText);
+        } else {
+            // 오류 처리
+            console.error("오류 발생:", xhr.statusText);
+        }
+    };
+
+    // 요청 전송
+    xhr.send(new URLSearchParams(formData)); // FormData를 쿼리 문자열로 변환하여 전송
+});
 
 </script>
-
 </body>
 </html>

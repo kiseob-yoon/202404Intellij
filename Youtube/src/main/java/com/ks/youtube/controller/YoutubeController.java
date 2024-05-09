@@ -2,13 +2,13 @@ package com.ks.youtube.controller;
 
 import com.ks.youtube.entity.contents_manage;
 import com.ks.youtube.service.ContentService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class YoutubeController {
@@ -51,6 +51,13 @@ public class YoutubeController {
 //        return "content";
         return contentService.selectContent(conNum);
     }
+    @PostMapping("selectSearch")
+    public String selectSearch(@RequestParam("conName") String conName,@RequestParam("lecName") String lecName,Model model){
+        model.addAttribute("selectSearch",contentService.selectSearch(conName,lecName));
+        return "content";
+    }
+
+
 
 
 
