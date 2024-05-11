@@ -135,7 +135,94 @@
             cursor: pointer; /* 마우스 커서를 포인터로 변경 */
            }
 
+    .modal {
+        display: none; /* 기본적으로 숨겨진 상태 */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4); /* 배경에 어둡게 */
+    }
+
+    /* 모달 콘텐츠 스타일 */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #ddd; /* 테두리 추가 */
+        max-width: 600px; /* 최대 너비 제한 */
+        width: 80%; /* 화면 폭의 80%로 설정 */
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 그림자 추가 */
+        position: relative; /* x 버튼을 위치시킬 때 상대적으로 위치 설정 */
+    }
+
+    /* 닫기 버튼 스타일 */
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute; /* 상대적으로 위치 설정 */
+        top: 10px; /* 위쪽 여백 */
+        right: 10px; /* 오른쪽 여백 */
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* 검색 입력 필드 스타일 */
+    .search-input {
+        width: 50%; /* 너비 조정 */
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd; /* 테두리 추가 */
+        border-radius: 5px; /* 모서리 둥글게 */
+        box-sizing: border-box; /* 패딩과 테두리 포함 */
+    }
+
+    /* 검색 버튼 스타일 */
+    .search-button, .select-button {
+        width: 10%; /* 너비 조정 */
+        padding: 10px;
+        background-color: #007bff; /* 파란색 배경 */
+        color: white;
+        border: none;
+        border-radius: 5px; /* 모서리 둥글게 */
+        cursor: pointer;
+    }
+
+    /* 검색 버튼 호버 스타일 */
+    .search-button:hover, .select-button:hover {
+        background-color: #0056b3; /* 파란색 더 진한 배경 */
+    }
+
+    /* 테이블 스타일 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2; /* 테이블 헤더 배경색 */
+    }
+
+
+
     </style>
+    <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
 
@@ -306,7 +393,49 @@
                             </tr>
                             <tr>
                                 <td class="table-light">교과목명</td>
-                                <td><input type="text" class="form-control" id="lecName" name="lecName" value="${selectContent.lecName}"></td>
+                                <td>
+                            <div style="display: flex; align-items: center;">
+                                <input type="text" class="form-control" id="lecName" name="lecName" value="${selectContent.lecName}" style="margin-right: 5px;">
+                                <img id="openModalButton" src="img/search.svg" style="width: 16px; height: 16px; cursor: pointer;">
+                            </div>
+                            <div id="myModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <div>
+                                    <input type="text" class="search-input" placeholder="교과목을 검색하세요...">
+                                    <button class="search-button">검색</button>
+                                    <button class="select-button">선택</button>
+                                    </div>
+                                    <!-- 테이블 데이터 -->
+                                    <table id="dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>교과목</th>
+                                                <th>교수</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Java</td>
+                                                <td>홍길동</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>알고리즘</td>
+                                                <td>김철수</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>데이터베이스</td>
+                                                <td>이영희</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="table-light">콘텐츠설명</td>
@@ -316,37 +445,40 @@
                                 <td class="table-light">Youtube비디오ID</td>
                                 <td>
                                 <div style="display: flex; align-items: center;">
-                                <input type="text"class="form-control" name="videoId" value="${selectContent.videoId}">
-                                <input type="button" class="js-preview-link" data-conNum="${conNum}" value="영상확인">
+                                <input type="text"class="form-control" id="videoIdInput" name="videoId" value="${selectContent.videoId}">
+                                <input type="button" class="js-preview-link" data-conNum="${conNum}" value="영상확인" onclick="getVideoDuration()">
                                 </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="table-light">차시학습시간[초]</td>
-                                <td><input type="text" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}">
+                                <td><input type="text" class="form-control" id="conPlayTime" name="conPlayTime" value="${selectContent.conPlayTime}">
                                 </td>
 
                             </tr>
 
                             </tbody>
 
+
+
                         </table>
-                            <input type="hidden" name="id" value="${selectContent.id}">
+                            <input type="hidden" value="${selectContent.conNum}">
                             <input type="submit" value="저장" class="btn btn-primary" style="float: right; margin-right: 5px;">
                             </form>
 
                             <form action="deleteContent">
-                            <input type="hidden" name="id" id="deleteBtn"  value="${selectContent.id}">
+                            <input type="hidden" name="conNum" id="deleteBtn"  value="${selectContent.conNum}">
                             <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px;" value="삭제">
                             </form>
 
                             <form action="insertContent" method="post">
-                                <input type="hidden" class="form-control" name="conNum" value="${selectContent.conNum}">
+                                <input type="hidden" class="form-control" name="conNum" value="JS2024-0004">
+                                <input type="hidden" class="form-control" name="lecNum" value="JS2024">
                                 <input type="hidden" class="form-control" name="conName" value="${selectContent.conName}">
-                                <input type="hidden" class="form-control" name="lecName" value="${selectContent.lecName}">
                                 <input type="hidden" class="form-control" name="description" value="${selectContent.description}">
                                 <input type="hidden" class="form-control" name="videoId" value="${selectContent.videoId}">
                                 <input type="hidden" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}">
+                                <input type="hidden" class="form-control" name="lecName" value="${selectContent.lecName}">
                                 <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px; margin-bottom: 10px;" value="신규"></button>
                             </form>
 
@@ -519,6 +651,52 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
     xhr.send(new URLSearchParams(formData)); // FormData를 쿼리 문자열로 변환하여 전송
 });
 
+
+
 </script>
+<script>
+$(document).ready(function() {
+    // 이미지를 클릭하여 모달 열기
+    $('#openModalButton').click(function() {
+        $('#myModal').css('display', 'block');
+    });
+
+    $('.close').click(function(event) {
+        event.preventDefault(); // 기본 클릭 이벤트를 막습니다.
+        $('#myModal').css('display', 'none');
+    });
+
+    // 선택 버튼 클릭 시 이벤트 처리
+    $('.select-button').click(function(event) {
+        event.preventDefault(); // 기본 클릭 이벤트를 막습니다.
+
+        // 선택된 테이블 데이터 가져오기
+        var selectedRow = $('#dataTable .selected');
+
+        if (selectedRow.length > 0) {
+            var selectedSubject = selectedRow.find('td:eq(1)').text(); // 교과목 열의 텍스트
+
+            // 선택된 교과목 값을 결과 표시 영역의 input 태그의 value에 설정
+            $('#lecName').val(selectedSubject); // 폼 필드에 선택된 값 설정
+
+            // 모달 닫기
+            $('#myModal').css('display', 'none');
+        } else {
+            alert("선택된 행이 없습니다.");
+        }
+    });
+
+    // 테이블 클릭 시 선택 표시
+    $('#dataTable tr').click(function() {
+        // 모든 행에서 선택 클래스 제거
+        $('#dataTable tr').removeClass('selected');
+
+        // 클릭한 행에 선택 클래스 추가
+        $(this).addClass('selected');
+    });
+});
+
+</script>
+
 </body>
 </html>

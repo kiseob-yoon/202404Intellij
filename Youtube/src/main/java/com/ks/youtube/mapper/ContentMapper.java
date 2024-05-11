@@ -17,7 +17,7 @@ public interface ContentMapper {
     List<contents_manage> selectList();
     void insertContent(contents_manage contentsManage);
     void updateContent(contents_manage contentsManage);
-    void deleteContent(int id);
+    void deleteContent(String conNum);
     contents_manage selectContent(String conNum);
     //List<contents_manage> selectSearch2(String conName,String lecName);
     List<contents_manage> selectSearch(@Param("conName") String conName, @Param("lecName") String lecName);

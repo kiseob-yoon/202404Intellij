@@ -30,8 +30,8 @@ public class ContentService {
     public void updateContent(contents_manage contentsManage){
         contentMapper.updateContent(contentsManage);
     }
-    public void deleteContent(int id){
-        contentMapper.deleteContent(id);
+    public void deleteContent(String conNum){
+        contentMapper.deleteContent(conNum);
     }
 
     public contents_manage selectContent(String conNum){

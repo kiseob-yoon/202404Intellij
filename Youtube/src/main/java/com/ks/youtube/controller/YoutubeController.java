@@ -39,8 +39,8 @@ public class YoutubeController {
         return "redirect:/content";
     }
     @GetMapping("deleteContent")
-    public String deleteContent(int id){
-        contentService.deleteContent(id);
+    public String deleteContent(String conNum){
+        contentService.deleteContent(conNum);
         return "redirect:/content";
     }
 

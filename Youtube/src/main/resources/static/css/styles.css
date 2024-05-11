@@ -66,19 +66,20 @@ header .inner #gnb li a:hover{
 
 
 /* visual */
-figure{
+figure {
     width: 100%;
-    height: calc(80vh - 120px);
+    height: 500px; /* 원하는 높이로 고정 */
     background: #000;
     position: relative;
     overflow: hidden;
-    padding-top: 250px;
+    padding-top: 250px; /* 변경하지 않음 */
     margin-bottom: 100px;
     position: relative;
     transform-style: preserve-3d; /* 자식 요소에 3D 변환 적용 */
     z-index: 1; /* figure 요소를 다른 요소들 위에 표시 */
 }
-figure img{
+
+figure img {
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -87,25 +88,30 @@ figure img{
     top: 0px;
     left: 0px;
 }
-figure .inner{
-    width: 1180px;
-    margin: 0px auto;
+
+figure .inner {
+    width: 1180px; /* 변경하지 않음 */
+    margin: 0px auto; /* 변경하지 않음 */
     position: absolute;
-    margin-top: -180px;
-    margin-left: 350px;
-}
-figure .inner h1{
-    font:normal 60px/1 "arial";
-    color: #fff;
-    margin-bottom: 20px;
+    top: 50%; /* 상단 정렬 대신 세로 중앙 정렬로 변경 */
+    left: 50%; /* 좌측 정렬 대신 가로 중앙 정렬로 변경 */
+    transform: translate(-50%, -50%); /* 세로, 가로 중앙 정렬을 위한 트랜스폼 */
 
 }
-figure .inner p{
-    font:16px/1.4 "arial";
+
+figure .inner h1 {
+    font: normal 60px/1 "arial";
+    color: #fff;
+
+}
+
+figure .inner p {
+    font: 16px/1.4 "arial";
     color: #888;
     margin-bottom: 60px;
 }
-figure .inner a{
+
+figure .inner a {
     display: block;
     width: 400px;
     height: 30px;
@@ -116,10 +122,12 @@ figure .inner a{
     letter-spacing: 1px;
     transition: all 0.5s;
 }
-figure .inner a:hover{
+
+figure .inner a:hover {
     background: #fff;
     color: #555;
 }
+
 
 
 

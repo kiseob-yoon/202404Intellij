@@ -16,15 +16,15 @@
     <select id="selectContent" resultType="com.ks.youtube.entity.contents_manage">
         SELECT *
         FROM contents_manage
-        WHERE conNum = #{conNum}
+        WHERE con_num = #{conNum}
     </select>
 
     <select id="selectSearch" resultType="com.ks.youtube.entity.contents_manage" parameterType="hashMap">
         SELECT *
         FROM contents_manage
-        WHERE conName LIKE CONCAT('%', #{conName}, '%')
+        WHERE con_name LIKE CONCAT('%', #{conName}, '%')
         <if test="lecName != null and lecName != ''">
-            AND lecName LIKE CONCAT('%', #{lecName}, '%')
+            AND lec_name LIKE CONCAT('%', #{lecName}, '%')
         </if>
     </select>
 
@@ -33,39 +33,42 @@
     <insert id="insertContent" parameterType="com.ks.youtube.entity.contents_manage">
         insert into contents_manage
         (
-        conName,
-        conNum,
-        conPlayTime,
+        con_num,
+        lec_num,
+        con_name,
         description,
-        lecName,
-        videoId
+        video_id,
+        con_play_time,
+        lec_name
+
         )
         values(
-        #{conName},
         #{conNum},
-        #{conPlayTime},
+        #{lecNum},
+        #{conName},
         #{description},
-        #{lecName},
-        #{videoId}
+        #{videoId},
+        #{conPlayTime},
+        #{lecName}
         );
     </insert>
 
     <update id="updateContent" parameterType="com.ks.youtube.entity.contents_manage">
         <![CDATA[
 	    UPDATE contents_manage SET
-		conName = #{conName},
-		conNum = #{conNum},
-		conPlayTime = #{conPlayTime},
+		con_name = #{conName},
+		con_num = #{conNum},
+		con_play_time = #{conPlayTime},
 		description = #{description},
-		lecName = #{lecName},
-		videoId = #{videoId}
-		where id = #{id};
+		lec_name = #{lecName},
+		video_id = #{videoId}
+		where con_num = #{conNum};
 	    ]]>
     </update>
 
-    <delete id="deleteContent" parameterType="int">
+    <delete id="deleteContent" parameterType="String">
         <![CDATA[
-		delete from contents_manage where id = #{id};
+		delete from contents_manage where con_num = #{conNum};
 
 	]]>
     </delete>
