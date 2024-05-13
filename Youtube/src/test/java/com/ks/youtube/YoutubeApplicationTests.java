@@ -16,7 +16,7 @@ class YoutubeApplicationTests {
 
     @Test
     void contextLoads() {
-        contentService.selectContent("C-8088");
+        contentService.selectAll();
     }
 
 

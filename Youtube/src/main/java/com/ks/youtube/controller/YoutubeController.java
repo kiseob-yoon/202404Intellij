@@ -24,6 +24,7 @@ public class YoutubeController {
     @GetMapping("content")
     public String content(Model model){
         model.addAttribute("contentList",contentService.selectAll());
+        model.addAttribute("formatTime",contentService.formatTime());
         return "content";
     }
 
@@ -36,6 +37,8 @@ public class YoutubeController {
     @GetMapping("updateContent")
     public String updateContent(contents_manage contentsManage){
         contentService.updateContent(contentsManage);
+
+//        contentService.updateContent(contentsManage);
         return "redirect:/content";
     }
     @GetMapping("deleteContent")

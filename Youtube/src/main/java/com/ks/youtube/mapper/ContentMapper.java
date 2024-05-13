@@ -15,8 +15,10 @@ import java.util.Map;
 public interface ContentMapper {
     int selectCount();
     List<contents_manage> selectList();
+    List<contents_manage> formatTime();
     void insertContent(contents_manage contentsManage);
     void updateContent(contents_manage contentsManage);
+    void insertOrUpdateContent(contents_manage content);
     void deleteContent(String conNum);
     contents_manage selectContent(String conNum);
     //List<contents_manage> selectSearch2(String conName,String lecName);

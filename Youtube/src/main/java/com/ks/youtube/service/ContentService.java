@@ -6,6 +6,7 @@ import com.ks.youtube.entity.contents_manage;
 import com.ks.youtube.mapper.ContentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,9 @@ public class ContentService {
     public int selectCount(){
         return contentMapper.selectCount();
     }
+    public List<contents_manage> formatTime(){
+        return contentMapper.formatTime();
+    }
     public List<contents_manage> selectAll(){
         return contentMapper.selectList();
     }
@@ -32,6 +36,11 @@ public class ContentService {
     }
     public void deleteContent(String conNum){
         contentMapper.deleteContent(conNum);
+    }
+
+
+    public void insertOrUpdateContent(contents_manage contentsManage) {
+        contentMapper.insertOrUpdateContent(contentsManage);
     }
 
     public contents_manage selectContent(String conNum){

@@ -18,6 +18,7 @@ public class contents_manage {
     String conNum;
     String lecNum;
     String conPlayTime;
+    String durationTime;
     String description;
     String lecName;
     String thumbUrl;

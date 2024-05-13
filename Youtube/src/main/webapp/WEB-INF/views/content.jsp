@@ -223,6 +223,8 @@
 
     </style>
     <script src="https://apis.google.com/js/api.js"></script>
+        <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+        <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 </head>
 <body>
 
@@ -318,6 +320,7 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead class="table-light">
                     <tr>
+                        <th scope="col"><input type="checkbox" id="masterCheckbox" onchange="toggleAllCheckboxes()"></th>
                         <th scope="col" style="text-align: center;">교과목</th>
                         <th scope="col" style="text-align: center;">콘텐츠명</th>
                         <th scope="col" style="text-align: center;">Youtube연동번호</th>
@@ -330,26 +333,35 @@
                         <c:forEach var="contents" items="${contentList}" varStatus="loop">
                             <tbody>
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" onclick="handleClick('${contents.getConNum()}')">
+                                    </td>
+
                                     <td onclick="handleClick('${contents.getConNum()}'); return false;">
+
                                         <a href="#">${contents.getLecName()}</a>
                                     </td>
                                     <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConName()}</td>
                                     <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getVideoId()}</td>
-                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConPlayTime()}</td>
+                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.durationTime}</td>
                                 </tr>
                             </tbody>
                         </c:forEach>
                     </c:when>
+
                     <c:otherwise>
                         <c:forEach var="search" items="${selectSearch}" varStatus="loop">
                             <tbody>
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" onclick="handleClick('${contents.getConNum()}')">
+                                    </td>
                                     <td onclick="handleClick('${search.getConNum()}'); return false;">
                                         <a href="#">${search.getLecName()}</a>
                                     </td>
                                     <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getConName()}</td>
                                     <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getVideoId()}</td>
-                                    <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getConPlayTime()}</td>
+                                    <td onclick="handleClick('${search.getConNum()}'); return false;">${search.durationTime}</td>
                                 </tr>
                             </tbody>
                         </c:forEach>
@@ -384,7 +396,7 @@
                             <tr>
                                 <td class="table-light">콘텐츠관리번호</td>
 
-                                <td><input type="text" class="form-control" name="conNum" value="${selectContent.conNum}"></td>
+                                <td><input type="text" class="form-control" name="conNum" value="${selectContent.conNum}" readonly></td>
 
                             </tr>
                             <tr>
@@ -395,7 +407,7 @@
                                 <td class="table-light">교과목명</td>
                                 <td>
                             <div style="display: flex; align-items: center;">
-                                <input type="text" class="form-control" id="lecName" name="lecName" value="${selectContent.lecName}" style="margin-right: 5px;">
+                                <input type="text" class="form-control" id="lecName" name="lecName" value="${selectContent.lecName}" style="margin-right: 5px;" readonly>
                                 <img id="openModalButton" src="img/search.svg" style="width: 16px; height: 16px; cursor: pointer;">
                             </div>
                             <div id="myModal" class="modal">
@@ -446,13 +458,22 @@
                                 <td>
                                 <div style="display: flex; align-items: center;">
                                 <input type="text"class="form-control" id="videoIdInput" name="videoId" value="${selectContent.videoId}">
-                                <input type="button" class="js-preview-link" data-conNum="${conNum}" value="영상확인" onclick="getVideoDuration()">
+                                <input type="button" style="margin-left: 10px;" class="js-preview-link" data-conNum="${conNum}" value="영상확인">
+
                                 </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="table-light">차시학습시간[초]</td>
-                                <td><input type="text" class="form-control" id="conPlayTime" name="conPlayTime" value="${selectContent.conPlayTime}">
+
+                                <td>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="text" class="form-control" id="conPlayTime" name="conPlayTime" value="${selectContent.conPlayTime}">
+                                    <input type="button" style="margin-left: 10px; display: inline-block;" onclick="updateVideoDuration(); return false;" value="갱신">
+
+
+                                </div>
+
                                 </td>
 
                             </tr>
@@ -471,14 +492,15 @@
                             <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px;" value="삭제">
                             </form>
 
+                                <button onclick="addEmptyRow()">빈 값 추가</button>
                             <form action="insertContent" method="post">
-                                <input type="hidden" class="form-control" name="conNum" value="JS2024-0004">
-                                <input type="hidden" class="form-control" name="lecNum" value="JS2024">
-                                <input type="hidden" class="form-control" name="conName" value="${selectContent.conName}">
-                                <input type="hidden" class="form-control" name="description" value="${selectContent.description}">
-                                <input type="hidden" class="form-control" name="videoId" value="${selectContent.videoId}">
-                                <input type="hidden" class="form-control" name="conPlayTime" value="${selectContent.conPlayTime}">
-                                <input type="hidden" class="form-control" name="lecName" value="${selectContent.lecName}">
+                                <input type="hidden" class="form-control" name="conNum" value="">
+                                <input type="hidden" class="form-control" name="lecNum" value="">
+                                <input type="hidden" class="form-control" name="conName" value="">
+                                <input type="hidden" class="form-control" name="description" value="">
+                                <input type="hidden" class="form-control" name="videoId" value="">
+                                <input type="hidden" class="form-control" name="conPlayTime" value="">
+                                <input type="hidden" class="form-control" name="lecName" value="">
                                 <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px; margin-bottom: 10px;" value="신규"></button>
                             </form>
 
@@ -533,170 +555,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script>
-    // 탭을 클릭했을 때 해당하는 테이블 보이도록 처리
-    $(document).ready(function(){
-        $("#tab1").click(function(){
-            $("#contentInfo").show();
-            $("#chapterInfo").hide();
-        });
-        $("#tab2").click(function(){
-            $("#contentInfo").hide();
-            $("#chapterInfo").show();
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-    var btnHide = document.querySelector('#btn-hide');
-    var btnShow = document.querySelector('#btn-show');
-
-    // 초기에는 사이드바를 보여주고 메뉴숨기기 버튼만 활성화합니다.
-    var sidebar = document.querySelector('#sidebar');
-    sidebar.style.display = 'block';
-    btnHide.style.display = 'block';
-    btnShow.style.display = 'none';
-
-    // 메뉴숨기기 버튼을 누르면 사이드바를 감추고 메뉴열기 버튼을 활성화합니다.
-    btnHide.addEventListener('click', function() {
-        sidebar.style.display = 'none';
-        btnHide.style.display = 'none';
-        btnShow.style.display = 'block';
-    });
-
-    // 메뉴열기 버튼을 누르면 사이드바를 보여주고 메뉴숨기기 버튼을 활성화합니다.
-    btnShow.addEventListener('click', function() {
-        sidebar.style.display = 'block';
-        btnShow.style.display = 'none';
-        btnHide.style.display = 'block';
-    });
-});
-
-// 클릭 이벤트 핸들러
-function handleClick(conNum) {
-
-    // 클릭된 요소의 conNum 값을 사용하여 AJAX 요청을 보냅니다.
-    $.ajax({
-        type: "GET",
-        url: "/selectContent?conNum=" + conNum, // 클릭된 요소의 conNum 값을 URL에 포함
-        success: function(response) {
-            // Ajax 요청이 성공하면 받은 데이터를 사용하여 폼 필드에 값을 설정합니다.
-            $('input[name="conNum"]').val(response.conNum);
-            $('#conName').val(response.conName);
-            $('#lecName').val(response.lecName);
-            $('input[name="description"]').val(response.description);
-            $('input[name="videoId"]').val(response.videoId);
-            $('input[name="conPlayTime"]').val(response.conPlayTime);
-            $('input[name="id"]').val(response.id);
-            $('.js-preview-link').data('conNum', response.conNum);
-
-        },
-        error: function(xhr, status, error) {
-            // 오류 처리
-            console.error("Error:", error);
-        }
-    });
-}
-
-$(document).ready(function() {
-    $('.js-preview-link').click(function(e) {
-        e.preventDefault(); // 링크의 기본 동작을 중지
-
-        // 클릭된 버튼이 속한 행의 콘텐츠 번호 가져오기
-        var conNum = $(this).data('conNum');
-
-        // AJAX 요청 보내기
-        $.ajax({
-            type: "GET",
-            url: "/selectContent?conNum=" + conNum,
-            success: function(response) {
-                // AJAX 요청이 성공한 경우
-                var videoId = response.videoId;
-                var youtubeLink = "https://www.youtube.com/watch?v=" + videoId;
-                window.open(youtubeLink, "_blank"); // 새 창에서 유튜브 링크 열기
-            },
-            error: function(xhr, status, error) {
-                // 오류 처리
-                console.error("Error:", error);
-            }
-        });
-    });
-});
-
-// 폼 제출 이벤트 리스너 추가
-document.getElementById("searchForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // 기본 제출 행동 막기
-    var form = this;
-    var formData = new FormData(form); // 폼 데이터 가져오기
-
-    // lecName 필드 값 가져오기
-    var lecNameValue = document.getElementById("lastName").value;
-
-    // AJAX 요청 생성
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/selectSearch"); // 서버의 실제 경로로 변경해야 함
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    // 요청 완료 후의 동작 설정
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            // 응답 처리
-            console.log(xhr.responseText);
-        } else {
-            // 오류 처리
-            console.error("오류 발생:", xhr.statusText);
-        }
-    };
-
-    // 요청 전송
-    xhr.send(new URLSearchParams(formData)); // FormData를 쿼리 문자열로 변환하여 전송
-});
-
-
-
-</script>
-<script>
-$(document).ready(function() {
-    // 이미지를 클릭하여 모달 열기
-    $('#openModalButton').click(function() {
-        $('#myModal').css('display', 'block');
-    });
-
-    $('.close').click(function(event) {
-        event.preventDefault(); // 기본 클릭 이벤트를 막습니다.
-        $('#myModal').css('display', 'none');
-    });
-
-    // 선택 버튼 클릭 시 이벤트 처리
-    $('.select-button').click(function(event) {
-        event.preventDefault(); // 기본 클릭 이벤트를 막습니다.
-
-        // 선택된 테이블 데이터 가져오기
-        var selectedRow = $('#dataTable .selected');
-
-        if (selectedRow.length > 0) {
-            var selectedSubject = selectedRow.find('td:eq(1)').text(); // 교과목 열의 텍스트
-
-            // 선택된 교과목 값을 결과 표시 영역의 input 태그의 value에 설정
-            $('#lecName').val(selectedSubject); // 폼 필드에 선택된 값 설정
-
-            // 모달 닫기
-            $('#myModal').css('display', 'none');
-        } else {
-            alert("선택된 행이 없습니다.");
-        }
-    });
-
-    // 테이블 클릭 시 선택 표시
-    $('#dataTable tr').click(function() {
-        // 모든 행에서 선택 클래스 제거
-        $('#dataTable tr').removeClass('selected');
-
-        // 클릭한 행에 선택 클래스 추가
-        $(this).addClass('selected');
-    });
-});
-
-</script>
+<script src="js/sidebar.js"></script>
+<script src="js/tabMenu.js"></script>
+<script src="js/selectAjax.js"></script>
+<script src="js/search.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/videoTime.js"></script>
+<script src="js/grid.js"></script>
+<script src="js/checkBox.js"></script>
 
 </body>
 </html>
