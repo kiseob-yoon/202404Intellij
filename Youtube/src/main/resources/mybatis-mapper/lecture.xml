@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ks.youtube.mapper.LectureMapper">
+
+    <select id="lectureList" resultType="com.ks.youtube.entity.lecture_info">
+        <![CDATA[
+        select
+        lec_num,
+        lec_start_date,
+        lec_end_date,
+        lec_name,
+        lec_ex
+        from lecture_info
+        ]]>
+    </select>
+
+</mapper>

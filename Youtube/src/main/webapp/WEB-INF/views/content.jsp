@@ -159,6 +159,7 @@
         position: relative; /* x 버튼을 위치시킬 때 상대적으로 위치 설정 */
     }
 
+
     /* 닫기 버튼 스타일 */
     .close {
         color: #aaa;
@@ -219,8 +220,6 @@
         background-color: #f2f2f2; /* 테이블 헤더 배경색 */
     }
 
-
-
     </style>
     <script src="https://apis.google.com/js/api.js"></script>
         <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
@@ -249,7 +248,7 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
+                <a href="/" class="nav-link active" aria-current="page">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
                     Home
                 </a>
@@ -257,27 +256,17 @@
             <li>
                 <a href="#" class="nav-link link-body-emphasis">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                    Dashboard
+                    컨텐츠정보
                 </a>
             </li>
             <li>
                 <a href="#" class="nav-link link-body-emphasis">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-                    Orders
+                    강좌정보
                 </a>
             </li>
-            <li>
-                <a href="#" class="nav-link link-body-emphasis">
-                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-                    Products
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-body-emphasis">
-                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-                    Customers
-                </a>
-            </li>
+
+
         </ul>
 
 
@@ -395,21 +384,27 @@
                             <tbody>
                             <tr>
                                 <td class="table-light">콘텐츠관리번호</td>
-
                                 <td><input type="text" class="form-control" name="conNum" value="${selectContent.conNum}" readonly></td>
-
                             </tr>
+
                             <tr>
                                 <td class="table-light">콘텐츠명</td>
-                                <td><input type="text" class="form-control" id="conName" name="conName" value="${selectContent.conName}"></td>
+                                    <td><input type="text" class="form-control" id="conName" name="conName" value="${selectContent.conName}"></td>
                             </tr>
+
                             <tr>
                                 <td class="table-light">교과목명</td>
+                                    <td><input type="text" class="form-control" id="lecName" name="lecName" value="${selectContent.lecName}" readonly></td>
+                            </tr>
+
+                            <tr>
+                                <td class="table-light">교과목코드</td>
                                 <td>
                             <div style="display: flex; align-items: center;">
-                                <input type="text" class="form-control" id="lecName" name="lecName" value="${selectContent.lecName}" style="margin-right: 5px;" readonly>
+                                <input type="text" class="form-control" id="lecNum" name="lecNum" value="${selectContent.lecNum}" style="margin-right: 5px;" readonly>
                                 <img id="openModalButton" src="img/search.svg" style="width: 16px; height: 16px; cursor: pointer;">
                             </div>
+
                             <div id="myModal" class="modal">
                                 <div class="modal-content">
                                     <span class="close">&times;</span>
@@ -422,47 +417,48 @@
                                     <table id="dataTable">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>교과목</th>
-                                                <th>교수</th>
+                                                <th>강좌번호</th>
+                                                <th>시작날짜</th>
+                                                <th>종료날짜</th>
+                                                <th>강의이름</th>
+                                                <th>강의설명</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <c:forEach var="lecture" items="${lectureList}" varStatus="loop">
                                             <tr>
-                                                <td>1</td>
-                                                <td>Java</td>
-                                                <td>홍길동</td>
+                                                <td>${lecture.getLecNum()}</td>
+                                                <td>${lecture.getLecStartDate()}</td>
+                                                <td>${lecture.getLecEndDate()}</td>
+                                                <td>${lecture.getLecName()}</td>
+                                                <td>${lecture.getLecEx()}</td>
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>알고리즘</td>
-                                                <td>김철수</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>데이터베이스</td>
-                                                <td>이영희</td>
-                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                                 </td>
+
                             </tr>
+
+
                             <tr>
                                 <td class="table-light">콘텐츠설명</td>
                                 <td><input type="text" class="form-control" name="description" value="${selectContent.description}"></td>
                             </tr>
+
                             <tr>
                                 <td class="table-light">Youtube비디오ID</td>
                                 <td>
                                 <div style="display: flex; align-items: center;">
                                 <input type="text"class="form-control" id="videoIdInput" name="videoId" value="${selectContent.videoId}">
                                 <input type="button" style="margin-left: 10px;" class="js-preview-link" data-conNum="${conNum}" value="영상확인">
-
                                 </div>
                                 </td>
                             </tr>
+
+
                             <tr>
                                 <td class="table-light">차시학습시간[초]</td>
 
@@ -471,20 +467,15 @@
                                     <input type="text" class="form-control" id="conPlayTime" name="conPlayTime" value="${selectContent.conPlayTime}">
                                     <input type="button" style="margin-left: 10px; display: inline-block;" onclick="updateVideoDuration(); return false;" value="갱신">
 
-
                                 </div>
 
                                 </td>
-
                             </tr>
-
                             </tbody>
-
-
-
                         </table>
+                        <div>
                             <input type="hidden" value="${selectContent.conNum}">
-                            <input type="submit" value="저장" class="btn btn-primary" style="float: right; margin-right: 5px;">
+                            <input type="submit" value="저장" class="btn btn-primary" style="float: right; margin-right: 0px;">
                             </form>
 
                             <form action="deleteContent">
@@ -492,18 +483,20 @@
                             <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px;" value="삭제">
                             </form>
 
-                                <button onclick="addEmptyRow()">빈 값 추가</button>
-                            <form action="insertContent" method="post">
-                                <input type="hidden" class="form-control" name="conNum" value="">
-                                <input type="hidden" class="form-control" name="lecNum" value="">
-                                <input type="hidden" class="form-control" name="conName" value="">
-                                <input type="hidden" class="form-control" name="description" value="">
-                                <input type="hidden" class="form-control" name="videoId" value="">
-                                <input type="hidden" class="form-control" name="conPlayTime" value="">
-                                <input type="hidden" class="form-control" name="lecName" value="">
-                                <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px; margin-bottom: 10px;" value="신규"></button>
-                            </form>
 
+                            <form action="insertContent" method="post">
+                                <input type="hidden" class="form-control" name="conNum">
+                                <input type="hidden" class="form-control" name="conName">
+                                <input type="hidden" class="form-control" name="lecName">
+                                <input type="hidden" class="form-control" name="lecNum">
+                                <input type="hidden" class="form-control" name="description">
+                                <input type="hidden" class="form-control" name="videoId">
+                                <input type="hidden" class="form-control" name="conPlayTime">
+                                <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px;" value="신규">
+                                <input type="button" onclick="addEmptyRow()" class="btn btn-primary" style="float: right; margin-right: 5px;" value="추가">
+
+                            </form>
+                            </div>
                     </div>
 
                     <div id="chapterInfo" style="overflow-x: auto; overflow-y: auto; max-height: 200px;">
@@ -563,6 +556,7 @@
 <script src="js/videoTime.js"></script>
 <script src="js/grid.js"></script>
 <script src="js/checkBox.js"></script>
+
 
 </body>
 </html>

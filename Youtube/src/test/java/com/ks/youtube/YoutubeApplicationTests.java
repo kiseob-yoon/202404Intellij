@@ -1,8 +1,8 @@
 package com.ks.youtube;
 
-import com.ks.youtube.entity.contents_manage;
+
 import com.ks.youtube.service.ContentService;
-import org.junit.jupiter.api.DisplayName;
+import com.ks.youtube.service.LectureService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +13,13 @@ class YoutubeApplicationTests {
     @Autowired
     private ContentService contentService;
 
+    @Autowired
+    private LectureService lectureService;
+
 
     @Test
     void contextLoads() {
-        contentService.selectAll();
+        lectureService.lectureList();
     }
 
 

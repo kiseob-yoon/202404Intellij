@@ -4,17 +4,19 @@ import lombok.*;
 
 
 import java.time.LocalDate;
+import java.util.Date;
 
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class lecture_info {
-    private String lec_num;
-    private LocalDate lec_start_date;
-    private LocalDate lec_end_date;
-    private String lec_name;
-    private String lec_ex;
+    private String lecNum;
+    private String lecStartDate;
+    private String lecEndDate;
+    private String lecName;
+    private String lecEx;
 }

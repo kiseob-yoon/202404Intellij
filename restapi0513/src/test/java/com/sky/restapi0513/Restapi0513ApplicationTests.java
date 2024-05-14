@@ -1,13 +1,13 @@
-package com.example.ks;
+package com.sky.restapi0513;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class KsApplicationTests {
+class Restapi0513ApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

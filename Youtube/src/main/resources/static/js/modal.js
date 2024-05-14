@@ -17,10 +17,13 @@ $(document).ready(function() {
         var selectedRow = $('#dataTable .selected');
 
         if (selectedRow.length > 0) {
-            var selectedSubject = selectedRow.find('td:eq(1)').text(); // 교과목 열의 텍스트
+            var firstValue = selectedRow.find('td:eq(0)').text(); // 0번째 열의 값
+            var fourthValue = selectedRow.find('td:eq(3)').text(); // 3번째 열의 값
 
-            // 선택된 교과목 값을 결과 표시 영역의 input 태그의 value에 설정
-            $('#lecName').val(selectedSubject); // 폼 필드에 선택된 값 설정
+            // 선택된 강좌번호 값을 결과 표시 영역의 input 태그의 value에 설정
+            $('[name="lecNum"]').val(firstValue);
+            $('[name="lecName"]').val(fourthValue);
+            $('#lecName').val(fourthValue);
 
             // 모달 닫기
             $('#myModal').css('display', 'none');

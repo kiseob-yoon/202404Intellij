@@ -38,9 +38,18 @@ public class ContentService {
         contentMapper.deleteContent(conNum);
     }
 
-
+    @Transactional
     public void insertOrUpdateContent(contents_manage contentsManage) {
-        contentMapper.insertOrUpdateContent(contentsManage);
+        // 콘텐츠 관리번호로 데이터 조회
+        contents_manage existingContent = contentMapper.getContentByNum(contentsManage.getConNum());
+
+        if (existingContent != null) {
+            // 데이터가 있으면 update 수행
+            contentMapper.updateContent(contentsManage);
+        } else {
+            // 데이터가 없으면 insert 수행
+            contentMapper.insertContent(contentsManage);
+        }
     }
 
     public contents_manage selectContent(String conNum){

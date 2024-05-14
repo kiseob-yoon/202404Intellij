@@ -16,6 +16,7 @@ public interface ContentMapper {
     int selectCount();
     List<contents_manage> selectList();
     List<contents_manage> formatTime();
+    contents_manage getContentByNum(String conNum);
     void insertContent(contents_manage contentsManage);
     void updateContent(contents_manage contentsManage);
     void insertOrUpdateContent(contents_manage content);

@@ -2,19 +2,20 @@ package com.ks.youtube.controller;
 
 import com.ks.youtube.entity.contents_manage;
 import com.ks.youtube.service.ContentService;
-import org.apache.ibatis.annotations.Param;
+import com.ks.youtube.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 public class YoutubeController {
 
     @Autowired
     private ContentService contentService;
+
+    @Autowired
+    private LectureService lectureService;
 
     @GetMapping("/")
     public String main(){
@@ -25,10 +26,11 @@ public class YoutubeController {
     public String content(Model model){
         model.addAttribute("contentList",contentService.selectAll());
         model.addAttribute("formatTime",contentService.formatTime());
+        model.addAttribute("lectureList",lectureService.lectureList());
         return "content";
     }
 
-    @PostMapping("insertContent")
+    @PostMapping("/insertContent")
     public String insertContent(contents_manage contentsManage){
         contentService.insertContent(contentsManage);
         return "redirect:/content";
@@ -36,7 +38,7 @@ public class YoutubeController {
 
     @GetMapping("updateContent")
     public String updateContent(contents_manage contentsManage){
-        contentService.updateContent(contentsManage);
+        contentService.insertOrUpdateContent(contentsManage);
 
 //        contentService.updateContent(contentsManage);
         return "redirect:/content";
@@ -59,6 +61,8 @@ public class YoutubeController {
         model.addAttribute("selectSearch",contentService.selectSearch(conName,lecName));
         return "content";
     }
+
+
 
 
 
