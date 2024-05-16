@@ -153,7 +153,7 @@
         margin: 15% auto;
         padding: 20px;
         border: 1px solid #ddd; /* 테두리 추가 */
-        max-width: 600px; /* 최대 너비 제한 */
+        max-width: 1000px; /* 최대 너비 제한 */
         width: 80%; /* 화면 폭의 80%로 설정 */
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 그림자 추가 */
         position: relative; /* x 버튼을 위치시킬 때 상대적으로 위치 설정 */
@@ -179,7 +179,7 @@
 
     /* 검색 입력 필드 스타일 */
     .search-input {
-        width: 50%; /* 너비 조정 */
+        width: 75%; /* 너비 조정 */
         padding: 10px;
         margin-bottom: 10px;
         border: 1px solid #ddd; /* 테두리 추가 */
@@ -254,16 +254,18 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link link-body-emphasis">
+                <a href="#" id="contentLink" class="nav-link link-body-emphasis">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                     컨텐츠정보
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link link-body-emphasis">
+                <a href="#" id="lectureLink" class="nav-link link-body-emphasis">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
                     강좌정보
                 </a>
+
+
             </li>
 
 
@@ -280,7 +282,6 @@
           </svg>
     </button>
 </div>
-
     <div class="container-fluid">
         <div class="row g-3 border p-3" style="margin-top: 10px; border-radius: 10px;">
             <div class="col-sm-6">
@@ -306,7 +307,7 @@
             <h4>온라인콘텐츠</h4>
             <div class="col-md-7" style="overflow-x: auto; overflow-y: auto; max-height: 600px;">
 
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-bordered table-hover" id="myTable">
                     <thead class="table-light">
                     <tr>
                         <th scope="col"><input type="checkbox" id="masterCheckbox" onchange="toggleAllCheckboxes()"></th>
@@ -319,35 +320,26 @@
 
                 <c:choose>
                     <c:when test="${empty selectSearch}">
+                    <tbody id="tableBody">
                         <c:forEach var="contents" items="${contentList}" varStatus="loop">
-                            <tbody>
                                 <tr>
-                                    <td>
-                                        <input type="checkbox" onclick="handleClick('${contents.getConNum()}')">
-                                    </td>
-
-                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">
-
-                                        <a href="#">${contents.getLecName()}</a>
-                                    </td>
+                                    <td><input type="checkbox" onclick="handleClick('${contents.getConNum()}')"></td>
+                                    <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getLecName()}</td>
                                     <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getConName()}</td>
                                     <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.getVideoId()}</td>
                                     <td onclick="handleClick('${contents.getConNum()}'); return false;">${contents.durationTime}</td>
                                 </tr>
-                            </tbody>
                         </c:forEach>
+                    </tbody>
                     </c:when>
+
 
                     <c:otherwise>
                         <c:forEach var="search" items="${selectSearch}" varStatus="loop">
-                            <tbody>
+                            <tbody id="tableBody">
                                 <tr>
-                                    <td>
-                                        <input type="checkbox" onclick="handleClick('${contents.getConNum()}')">
-                                    </td>
-                                    <td onclick="handleClick('${search.getConNum()}'); return false;">
-                                        <a href="#">${search.getLecName()}</a>
-                                    </td>
+                                    <td><input type="checkbox" onclick="handleClick('${contents.getConNum()}')"></td>
+                                    <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getLecName()}</td>
                                     <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getConName()}</td>
                                     <td onclick="handleClick('${search.getConNum()}'); return false;">${search.getVideoId()}</td>
                                     <td onclick="handleClick('${search.getConNum()}'); return false;">${search.durationTime}</td>
@@ -493,7 +485,7 @@
                                 <input type="hidden" class="form-control" name="videoId">
                                 <input type="hidden" class="form-control" name="conPlayTime">
                                 <input type="submit" class="btn btn-primary" style="float: right; margin-right: 5px;" value="신규">
-                                <input type="button" onclick="addEmptyRow()" class="btn btn-primary" style="float: right; margin-right: 5px;" value="추가">
+                                <input type="button" onclick="addEmptyRowBelow(this)" class="btn btn-primary" style="float: right; margin-right: 5px;" value="추가">
 
                             </form>
                             </div>
@@ -544,7 +536,9 @@
 
         </div>
     </div>
+    <div id="lectureForm"></div>
 </main>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -556,6 +550,67 @@
 <script src="js/videoTime.js"></script>
 <script src="js/grid.js"></script>
 <script src="js/checkBox.js"></script>
+
+<script>
+$(document).ready(function() {
+    // 로컬 스토리지에서 숨김 상태를 가져옵니다.
+    var isContainerHidden = localStorage.getItem('isContainerHidden');
+
+    // 컨텐츠정보 링크 클릭 시
+    $('#contentLink').click(function(e) {
+        e.preventDefault(); // 기본 이벤트(링크 이동) 방지
+
+        // 강좌 정보 폼을 숨깁니다.
+        $('#lectureForm').hide();
+
+        // .container-fluid를 토글(숨기기/나타내기)합니다.
+        $('.container-fluid').toggle();
+
+        // 숨김 상태를 로컬 스토리지에 저장합니다.
+        localStorage.setItem('isContainerHidden', $('.container-fluid').is(':hidden'));
+    });
+
+    // 강좌정보 링크 클릭 시
+    $('#lectureLink').click(function(e) {
+        e.preventDefault(); // 기본 이벤트(링크 이동) 방지
+
+        // AJAX를 통해 강좌 정보 폼을 가져옵니다.
+        $.ajax({
+            url: '/lecture', // 컨트롤러의 URL
+            method: 'GET',
+            success: function(response) {
+                // 성공적으로 폼을 가져왔을 때, 가져온 HTML을 삽입합니다.
+                $('#lectureForm').html(response);
+
+                // 숨김 상태를 로컬 스토리지에 저장합니다.
+                localStorage.setItem('isContainerHidden', true);
+
+                // 컨텐츠 정보를 숨기고 강좌 정보 폼을 표시합니다.
+                $('.container-fluid').hide();
+                $('#lectureForm').show();
+            },
+            error: function(xhr, status, error) {
+                // 에러가 발생했을 때의 처리
+                console.error(error);
+            }
+        });
+    });
+
+    // 페이지 로드 시 저장된 숨김 상태를 확인하고 적용합니다.
+    if (isContainerHidden === 'true') {
+        $('.container-fluid').hide();
+    }
+});
+
+
+
+
+
+
+
+
+
+</script>
 
 
 </body>

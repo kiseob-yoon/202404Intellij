@@ -48,6 +48,8 @@ sampleGrid = new Grid({
     draggable: false,
     bodyHeight: 200,
     contextMenu: null,
+
+
     data: {
         fields: ['교과목', '콘텐츠명', 'Youtube연동번호', '학습시간'],
         rows: [] // 빈 배열로 초기화하거나 초기 데이터를 넣어줍니다.
@@ -99,9 +101,9 @@ sampleGrid = new Grid({
     return sampleGrid;
 }
 
-function addEmptyRow() {
-    // tbody 요소를 가져옵니다.
-    const tbody = document.querySelector('tbody');
+function addEmptyRowBelow(button) {
+    // 테이블의 tbody를 찾습니다.
+    const tbody = document.getElementById('tableBody');
 
     // 새로운 행(tr 요소)를 생성합니다.
     const newRow = document.createElement('tr');
@@ -120,7 +122,7 @@ function addEmptyRow() {
     newRow.appendChild(checkboxCell); // 행에 첫 번째 셀을 추가합니다.
 
     // 나머지 셀에 빈 값을 추가하는 각 셀(td 요소)를 생성합니다.
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         const newCell = document.createElement('td');
         const link = document.createElement('a');
         link.href = "#";
@@ -136,6 +138,12 @@ function addEmptyRow() {
         newRow.appendChild(newCell); // 행에 셀을 추가합니다.
     }
 
+
+
     // tbody에 새로운 행을 추가합니다.
     tbody.appendChild(newRow);
 }
+
+
+
+

@@ -1,6 +1,7 @@
 package com.ks.youtube.controller;
 
 import com.ks.youtube.entity.contents_manage;
+import com.ks.youtube.entity.lecture_info;
 import com.ks.youtube.service.ContentService;
 import com.ks.youtube.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,38 @@ public class YoutubeController {
     @PostMapping("selectSearch")
     public String selectSearch(@RequestParam("conName") String conName,@RequestParam("lecName") String lecName,Model model){
         model.addAttribute("selectSearch",contentService.selectSearch(conName,lecName));
+        model.addAttribute("lectureList",lectureService.lectureList());
         return "content";
     }
+    @GetMapping("lecture")
+    public String lecture(Model model){
+        model.addAttribute("lectureList",lectureService.lectureList());
+        return "lecture";
+    }
+    @GetMapping("lectureDetail")
+    public String lectureDetail(Model model){
+        model.addAttribute("lectureList",lectureService.lectureList());
+        return "lecture";
+    }
+
+    @PostMapping("lectureInfo")
+    public String lectureInfo(lecture_info lectureInfo){
+        lectureService.insertLectureInfo(lectureInfo);
+        return "redirect:/content";
+    }
+    @GetMapping("selectLecture")
+    @ResponseBody
+    public lecture_info selectLecture(@RequestParam("lecNum") String lecNum,Model model){
+        return lectureService.selectLecture(lecNum);
+    }
+
+//    @GetMapping("selectLecture")
+//    public String selectLecture(@RequestParam("lecNum") String lecNum,Model model){
+//        model.addAttribute("selectLecture",lectureService.selectLecture(lecNum));
+//        return "lecture";
+//    }
+
+
 
 
 

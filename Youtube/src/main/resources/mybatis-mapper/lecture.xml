@@ -15,4 +15,21 @@
         ]]>
     </select>
 
+    <select id="selectLecture" resultType="com.ks.youtube.entity.lecture_info">
+        SELECT *
+        FROM lecture_info
+        WHERE lec_num = #{lecNum}
+    </select>
+
+    <insert id="insertLectureInfo" parameterType="com.ks.youtube.entity.lecture_info">
+        INSERT INTO lecture_info (lec_num, lec_start_date, lec_end_date, lec_name, lec_ex)
+        SELECT
+        CONCAT('S', LPAD(IFNULL(SUBSTRING_INDEX(MAX(lec_num), 'S', -1) + 1, 0), 6, '0')) AS lec_num,
+        #{lecStartDate},
+        #{lecEndDate},
+        #{lecName},
+        #{lecEx}
+        FROM lecture_info
+    </insert>
+
 </mapper>
