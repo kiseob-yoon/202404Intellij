@@ -24,7 +24,7 @@ public class LectureService {
         return lectureMapper.selectLecture(lecNum);
     }
 
-    @Transactional
+
     public void insertOrUpdateLecture(lecture_info lectureInfo){
        lecture_info existingContent = lectureMapper.getContentByNum(lectureInfo.getLecNum());
 

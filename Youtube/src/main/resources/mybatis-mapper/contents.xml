@@ -106,7 +106,7 @@
         #{videoId},
         #{conPlayTime},
         #{lecName}
-        FROM CONTENTS_MANAGE
+        from contents_manage
         WHERE CON_NUM LIKE CONCAT('J', YEAR(NOW()), '%')
     ]]>
 

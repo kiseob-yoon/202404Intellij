@@ -21,8 +21,9 @@ $(document).ready(function() {
             var fourthValue = selectedRow.find('td:eq(3)').text(); // 3번째 열의 값
 
             // 선택된 강좌번호 값을 결과 표시 영역의 input 태그의 value에 설정
-            $('[name="lecNum"]').val(firstValue);
-            $('[name="lecName"]').val(fourthValue);
+
+
+            $('#lecNum').val(firstValue);
             $('#lecName').val(fourthValue);
 
             // 모달 닫기
