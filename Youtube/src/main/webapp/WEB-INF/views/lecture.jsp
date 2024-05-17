@@ -141,11 +141,11 @@
                     <tbody id="tdInsert">
                         <c:forEach var="lecture" items="${lectureList}" varStatus="loop">
                                 <tr>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecNum()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecStartDate()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEndDate()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecName()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEx()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecNum()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecStartDate()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEndDate()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecName()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEx()}</td>
                                 </tr>
                         </c:forEach>
                     </tbody>
@@ -156,11 +156,11 @@
                         <c:forEach var="lecture" items="${lectureList}" varStatus="loop">
                             <tbody id="tdInsert">
                                 <tr>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecNum()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecStartDate()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEndDate()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecName()}</td>
-                                    <td onclick="handleClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEx()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecNum()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecStartDate()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEndDate()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecName()}</td>
+                                    <td onclick="lectureClick('${lecture.getLecNum()}'); return false;">${lecture.getLecEx()}</td>
                                 </tr>
                             </tbody>
                         </c:forEach>
@@ -234,10 +234,11 @@
     </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
 <script src="js/lectureGrid.js"></script>
 <script>
 
-function handleClick(lecNum) {
+function lectureClick(lecNum) {
     // 클릭된 요소의 lecNum 값을 사용하여 AJAX 요청을 보냅니다.
     $.ajax({
         type: "GET",
@@ -259,13 +260,16 @@ function handleClick(lecNum) {
 
 </script>
 <script>
-    // 폼이 제출되면 실행될 함수
-    $('form').submit(function(event){
+$(document).ready(function() {
+    $('form').submit(function(event) {
         // 폼의 기본 동작을 막습니다.
         event.preventDefault();
 
         // 폼 데이터를 직렬화합니다.
         var formData = $(this).serialize();
+
+        // 현재 폼을 변수에 저장합니다.
+        var $form = $(this);
 
         // AJAX 요청을 보냅니다.
         $.ajax({
@@ -276,6 +280,9 @@ function handleClick(lecNum) {
                 // 성공적으로 응답을 받았을 때 실행되는 콜백 함수
                 // 새로운 강좌 정보를 가져와서 목록에 추가합니다.
                 appendNewLecture(response);
+
+                // 폼의 입력 필드를 비웁니다.
+                $form[0].reset();
             },
             error: function(xhr, status, error) {
                 // 요청이 실패한 경우 실행되는 콜백 함수
@@ -284,11 +291,22 @@ function handleClick(lecNum) {
         });
     });
 
-    // 새로운 강좌 정보를 목록에 추가하는 함수
-    function appendNewLecture(lecture) {
-        // 새로운 강좌 정보를 목록에 추가합니다.
-        $('#tdInsert').append(lecture);
+    function appendNewLecture() {
+        $.ajax({
+            url: 'lectureDetail',
+            type: 'GET',
+            success: function(response) {
+                // 응답에서 헤더와 사이드바를 제외한 부분을 추출하여 사용
+                var lectureInfo = $(response).find('#tdInsert').html();
+                $('#tdInsert').html(lectureInfo);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX request failed:', status, error);
+            }
+        });
     }
+});
+
 </script>
 
 

@@ -563,11 +563,11 @@ $(document).ready(function() {
         // 강좌 정보 폼을 숨깁니다.
         $('#lectureForm').hide();
 
-        // .container-fluid를 토글(숨기기/나타내기)합니다.
-        $('.container-fluid').toggle();
+        // .container-fluid를 나타내기만 합니다.
+        $('.container-fluid').show();
 
         // 숨김 상태를 로컬 스토리지에 저장합니다.
-        localStorage.setItem('isContainerHidden', $('.container-fluid').is(':hidden'));
+        localStorage.setItem('isContainerHidden', false);
     });
 
     // 강좌정보 링크 클릭 시
@@ -599,6 +599,8 @@ $(document).ready(function() {
     // 페이지 로드 시 저장된 숨김 상태를 확인하고 적용합니다.
     if (isContainerHidden === 'true') {
         $('.container-fluid').hide();
+    } else {
+        $('.container-fluid').show();
     }
 });
 

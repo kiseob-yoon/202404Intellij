@@ -10,6 +10,10 @@ import java.util.List;
 public interface LectureMapper {
     List<lecture_info> lectureList();
     void insertLectureInfo(lecture_info lectureInfo);
+    void updateLectureInfo(lecture_info lectureInfo);
     lecture_info selectLecture(String lecNum);
+    lecture_info getContentByNum(String lecNum);
+
+
 
 }

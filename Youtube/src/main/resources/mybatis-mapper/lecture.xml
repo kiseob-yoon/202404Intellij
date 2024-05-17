@@ -32,4 +32,21 @@
         FROM lecture_info
     </insert>
 
+    <update id="updateLectureInfo" parameterType="com.ks.youtube.entity.lecture_info">
+        <![CDATA[
+	    UPDATE lecture_info SET
+		lec_start_date = #{lecStartDate},
+		lec_end_date = #{lecEndDate},
+		lec_name = #{lecName},
+		lec_ex = #{lecEx}
+		where lec_num = #{lecNum};
+	    ]]>
+    </update>
+
+    <select id="getContentByNum" parameterType="String" resultType="com.ks.youtube.entity.lecture_info">
+        <![CDATA[
+            SELECT * FROM lecture_info WHERE lec_num = #{lecNum}
+        ]]>
+    </select>
+
 </mapper>

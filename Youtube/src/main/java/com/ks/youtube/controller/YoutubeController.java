@@ -76,7 +76,9 @@ public class YoutubeController {
 
     @PostMapping("lectureInfo")
     public String lectureInfo(lecture_info lectureInfo){
-        lectureService.insertLectureInfo(lectureInfo);
+        lectureService.insertOrUpdateLecture(lectureInfo);
+
+        //lectureService.insertLectureInfo(lectureInfo);
         return "redirect:/content";
     }
     @GetMapping("selectLecture")
@@ -85,11 +87,7 @@ public class YoutubeController {
         return lectureService.selectLecture(lecNum);
     }
 
-//    @GetMapping("selectLecture")
-//    public String selectLecture(@RequestParam("lecNum") String lecNum,Model model){
-//        model.addAttribute("selectLecture",lectureService.selectLecture(lecNum));
-//        return "lecture";
-//    }
+
 
 
 

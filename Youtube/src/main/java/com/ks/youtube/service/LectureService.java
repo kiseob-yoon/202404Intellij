@@ -5,6 +5,7 @@ import com.ks.youtube.entity.lecture_info;
 import com.ks.youtube.mapper.LectureMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,18 @@ public class LectureService {
     }
     public lecture_info selectLecture(String lecNum){
         return lectureMapper.selectLecture(lecNum);
+    }
+
+    @Transactional
+    public void insertOrUpdateLecture(lecture_info lectureInfo){
+       lecture_info existingContent = lectureMapper.getContentByNum(lectureInfo.getLecNum());
+
+        if (existingContent != null) {
+            lectureMapper.updateLectureInfo(lectureInfo);
+        }
+        else {
+            lectureMapper.insertLectureInfo(lectureInfo);
+        }
     }
 
 }
