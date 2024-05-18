@@ -107,15 +107,15 @@
                     <div class="form-group" style="margin-left: 40px;">
                         <label for="firstName">콘텐츠명</label>
 
-                        <input type="text" class="form-control" id="firstName" name="conName" placeholder="" value="" style="max-width: 350px;">
+                        <input type="text" class="form-control" placeholder="" value="" style="max-width: 350px;">
                     </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="lastName">교과목명</label>
 
-                    <input type="text" class="form-control" id="lastName" name="lecName" placeholder="" value="" style="max-width: 350px;">
-                    <input type="submit"class="btn btn-primary" value="검색"></input>
+                    <input type="text" class="form-control" placeholder="" value="" style="max-width: 350px;">
+                    <input type="button" class="btn btn-primary" value="검색"></input>
                 </div>
             </div>
               </form>

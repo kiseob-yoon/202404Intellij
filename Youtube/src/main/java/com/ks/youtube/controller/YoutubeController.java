@@ -1,13 +1,14 @@
 package com.ks.youtube.controller;
 
 import com.ks.youtube.entity.contents_manage;
-import com.ks.youtube.entity.lecture_info;
 import com.ks.youtube.service.ContentService;
 import com.ks.youtube.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class YoutubeController {
@@ -61,8 +62,14 @@ public class YoutubeController {
     public String selectSearch(@RequestParam("conName") String conName,@RequestParam("lecName") String lecName,Model model){
         model.addAttribute("selectSearch",contentService.selectSearch(conName,lecName));
         model.addAttribute("lectureList",lectureService.lectureList());
-        return "content";
-    }
+        return "redirect:/content";
+   }
+//@PostMapping("selectSearch")
+//@ResponseBody
+//public List<contents_manage> selectSearch(@RequestParam("conName") String conName, @RequestParam("lecName") String lecName) {
+//    return contentService.selectSearch(conName, lecName);
+//}
+
 
 
 
