@@ -62,7 +62,7 @@ public class YoutubeController {
     public String selectSearch(@RequestParam("conName") String conName,@RequestParam("lecName") String lecName,Model model){
         model.addAttribute("selectSearch",contentService.selectSearch(conName,lecName));
         model.addAttribute("lectureList",lectureService.lectureList());
-        return "redirect:/content";
+        return "content";
    }
 //@PostMapping("selectSearch")
 //@ResponseBody
