@@ -46,9 +46,6 @@
             num = #{num} and id = #{id}
     ]]>
 	</select>
-	
-	
-
 
 	<insert id="insertComments" parameterType="com.ks.sb_project.dto.Comments">
 	<![CDATA[
@@ -103,12 +100,5 @@
 		ORDER BY num DESC
 		LIMIT #{start}, #{listSize}
 	</select>
-
-
-
-
-
-
-
 
 </mapper>

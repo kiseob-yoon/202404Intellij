@@ -8,10 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
-public class YoutubeController {
+public class ContentController {
 
     @Autowired
     private ContentService contentService;
@@ -41,8 +39,6 @@ public class YoutubeController {
     @PostMapping("updateContent")
     public String updateContent(contents_manage contentsManage){
         contentService.insertOrUpdateContent(contentsManage);
-
-//        contentService.updateContent(contentsManage);
         return "redirect:/content";
     }
     @PostMapping("deleteContent")
@@ -54,8 +50,6 @@ public class YoutubeController {
     @GetMapping("selectContent")
     @ResponseBody
     public contents_manage selectContent(@RequestParam("conNum") String conNum,Model model){
-//        model.addAttribute("selectContent", contentService.selectContent(conNum));
-//        return "content";
         return contentService.selectContent(conNum);
     }
     @PostMapping("selectSearch")
@@ -64,11 +58,7 @@ public class YoutubeController {
         model.addAttribute("lectureList",lectureService.lectureList());
         return "content";
    }
-//@PostMapping("selectSearch")
-//@ResponseBody
-//public List<contents_manage> selectSearch(@RequestParam("conName") String conName, @RequestParam("lecName") String lecName) {
-//    return contentService.selectSearch(conName, lecName);
-//}
+
 
 
 

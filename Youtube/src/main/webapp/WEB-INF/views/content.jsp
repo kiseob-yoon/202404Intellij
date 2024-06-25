@@ -459,7 +459,7 @@
 
         </div>
     </div>
-    <div id="lectureForm"></div>
+    <div id="lectureForm" style="display:none;"></div>
 </main>
 
 
